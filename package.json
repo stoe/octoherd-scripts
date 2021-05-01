@@ -25,7 +25,7 @@
     "test": "eslint **/*.js "
   },
   "dependencies": {
-    "@octoherd/cli": "^2.1.0",
+    "@octoherd/cli": "^3.3.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
