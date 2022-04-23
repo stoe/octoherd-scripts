@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+      time: '09:00'
+      timezone: 'Europe/Berlin'
+    commit-message:
+      prefix: 'action'
+
+  - package-ecosystem: 'gomod'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+      time: '09:00'
+      timezone: 'Europe/Berlin'
+    commit-message:
+      prefix: 'go'
+      include: 'scope'
+    labels:
+      - 'dependency :robot:'

@@ -1,0 +1,39 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "plugins": [
+    "github"
+  ],
+  "extends": [
+    "plugin:github/recommended"
+  ],
+  "rules": {
+    "camelcase": [
+      "error",
+      {
+        "allow": [
+          "has_issues",
+          "has_projects",
+          "has_wiki",
+          "allow_squash_merge",
+          "allow_merge_commit",
+          "allow_rebase_merge",
+          "allow_auto_merge",
+          "delete_branch_on_merge",
+          "security_and_analysis",
+          "advanced_security",
+          "secret_scanning"
+        ]
+      }
+    ],
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "no-console": "warn"
+  }
+}

@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+<<<<<<< HEAD
+      time: '09:00'
+      timezone: 'Europe/Berlin'
+    commit-message:
+      prefix: 'action'
+=======
+    commit-message:
+      prefix: '🆙 action'
+>>>>>>> eb25706 (📦 Init)
+    labels:
+      - 'github-action :robot:'
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+<<<<<<< HEAD
+      interval: 'monthly'
+    commit-message:
+      prefix: 'npm'
+=======
+      interval: 'weekly'
+      day: 'saturday'
+    commit-message:
+      prefix: '🆙 npm'
+>>>>>>> eb25706 (📦 Init)
+      include: 'scope'
+    labels:
+      - 'dependency :robot:'

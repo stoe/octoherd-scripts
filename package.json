@@ -1,0 +1,43 @@
+{
+  "name": "root",
+  "type": "module",
+  "workspaces": [
+    "scripts/dependabot-config",
+    "scripts/repository-labels",
+    "scripts/repository-settings"
+  ],
+  "author": {
+    "name": "Stefan Stölzle",
+    "email": "stefan@stoelzle.me",
+    "url": "https://github.com/stoe"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/stoe/octoherd-scripts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "scripts": {
+    "prepare": "husky install ./.github/husky",
+    "format": "npm run format --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "publish": "npm publish --access public --workspaces"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@github/prettier-config": "^0.0.4",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-github": "^4.3.6",
+    "husky": "^7.0.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./.github/husky/pre-commit",
+      "pre-push": "./.github/husky/pre-push"
+    }
+  }
+}

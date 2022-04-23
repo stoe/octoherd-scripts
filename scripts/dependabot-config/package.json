@@ -1,0 +1,38 @@
+{
+  "name": "@stoe/octoherd-script-dependabot-config",
+  "version": "0.0.0-development",
+  "type": "module",
+  "description": "Apply @dependabot config to all repositories",
+  "keywords": [
+    "octohed-script",
+    "dependabot",
+    "config"
+  ],
+  "author": {
+    "name": "Stefan Stölzle",
+    "email": "stefan@stoelzle.me",
+    "url": "https://github.com/stoe"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/stoe/octoherd-scripts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "exports": "./script.js",
+  "bin": {
+    "octoherd-script-dependabot-config": "./cli.js"
+  },
+  "scripts": {
+    "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
+    "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
+    "test": "eslint '*.js'"
+  },
+  "dependencies": {
+    "@octoherd/cli": "^3.4.7"
+  },
+  "prettier": "@github/prettier-config"
+}
