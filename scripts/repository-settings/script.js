@@ -90,6 +90,9 @@ export async function script(octokit, repository) {
       security_and_analysis: {
         secret_scanning: {
           status: 'enabled'
+        },
+        secret_scanning_push_protection: {
+          status: 'enabled'
         }
       }
     }
@@ -102,6 +105,7 @@ export async function script(octokit, repository) {
     if (config.security_and_analysis.secret_scanning && ownerType === 'User') {
       // Secret Scanning can only be set on organization owned repositories
       delete config.security_and_analysis.secret_scanning
+      delete config.security_and_analysis.secret_scanning_push_protection
     }
 
     if (Object.keys(config.security_and_analysis).length === 0) {
