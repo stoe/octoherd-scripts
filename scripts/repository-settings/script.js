@@ -6,10 +6,17 @@ export async function script(octokit, repository) {
   if (repository.archived || repository.fork) return
 
   const {
+    archived,
+    disabled,
+    fork,
+    size,
     owner: {login: owner},
     name: repo,
     node_id: repoID
   } = repository
+
+  // skip archived, disabled, forked and empty repos
+  if (archived || disabled || fork || size === 0) return
 
   const language = repository.language ? repository.language.toLowerCase() : null
 
