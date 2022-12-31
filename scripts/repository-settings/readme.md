@@ -1,4 +1,4 @@
-# octoherd-script: repo-settings
+# octoherd-script: repository-settings
 
 > Apply my default respository settings
 >
@@ -7,14 +7,7 @@
 ## Usage
 
 ```sh
-$ npx @stoe/repo-settings \
-  --template "stoe/repo-settings"
-```
-
-Pass all options as CLI flags to avoid user prompts
-
-```sh
-$ npx @stoe/repo-settings \
+$ npx @stoe/octoherd-script-repository-settings \
   --octoherd-token ghp_000000000000000000000000000000000000 \
   --octoherd-repos "stoe/*"
 ```

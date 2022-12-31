@@ -1,4 +1,4 @@
-# octoherd-script: repo-labels-sync
+# octoherd-script: repository-labels
 
 > Sync labels across repositories
 >
@@ -7,8 +7,8 @@
 ## Usage
 
 ```sh
-$ npx @stoe/repo-labels-sync \
-  --template "stoe/repo-labels-sync"
+$ npx @stoe/octoherd-script-repository-labels \
+  --template "stoe/octoherd-scripts"
   --octoherd-token ghp_000000000000000000000000000000000000 \
   --octoherd-repos "stoe/*"
 ```

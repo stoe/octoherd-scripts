@@ -14,17 +14,17 @@
 
 > Delete forked repositories
 
-### [dependabot-config](scripts/dependabot-config)
+### [dependabot-config](scripts/dependabot-config) (🚧 work in progress)
 
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
 
 ℹ️ [Configuration options for the dependabot.yml file - GitHub Docs](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates)
 
-### [repo-labels-sync](scripts/repo-labels-sync)
+### [repository-labels](scripts/repository-labels)
 
 > Sync labels across repositories
 
-### [repo-settings](scripts/repo-settings)
+### [repository-settings](scripts/repository-settings)
 
 > Apply my default respository settings
 
