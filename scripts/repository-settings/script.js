@@ -3,8 +3,6 @@
  * @param {import('@octoherd/cli').Repository}  repository
  */
 export async function script(octokit, repository) {
-  if (repository.archived || repository.fork) return
-
   const {
     archived,
     disabled,
