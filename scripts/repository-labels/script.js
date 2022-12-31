@@ -9,5 +9,5 @@ export async function script(octokit, repository, options = {dryRun: false}) {
   if (repository.fork) return
 
   // eslint-disable-next-line no-console
-  console.log({repository, options})
+  console.log({repository, options}, 'TODO')
 }
