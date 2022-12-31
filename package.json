@@ -4,7 +4,8 @@
   "workspaces": [
     "scripts/dependabot-config",
     "scripts/repository-labels",
-    "scripts/repository-settings"
+    "scripts/repository-settings",
+    "scripts/action-node-version"
   ],
   "author": {
     "name": "Stefan Stölzle",

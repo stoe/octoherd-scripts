@@ -6,6 +6,10 @@
 
 ## Scripts
 
+### [action-node-version](scripts/action-node-version)
+
+> Change Node version all GitHub Actions repositories
+
 ### [dependabot-config](scripts/dependabot-config)
 
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
