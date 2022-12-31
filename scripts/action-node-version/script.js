@@ -34,6 +34,7 @@ export async function script(octokit, repository, {dryRun = false, verbose = fal
 
   // skip repostories without action.yml
   try {
+    // https://docs.github.com/en/rest/reference/repos#get-repository-content
     const {data} = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner,
       repo,

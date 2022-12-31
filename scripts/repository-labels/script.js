@@ -60,6 +60,7 @@ export async function script(octokit, repository, {defaults = false, path = null
     try {
       const [ownerSync, repoSync] = template.split('/')
 
+      // https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
       const {data} = await octokit.request('GET /repos/{owner}/{repo}/labels', {
         owner: ownerSync,
         repo: repoSync,
@@ -77,6 +78,7 @@ export async function script(octokit, repository, {defaults = false, path = null
   }
 
   // current labels
+  // https://docs.github.com/en/rest/reference/issues#list-labels-for-a-repository
   const {data} = await octokit.request('GET /repos/{owner}/{repo}/labels', {
     owner,
     repo,
