@@ -13,7 +13,7 @@ export async function script(octokit, repository) {
     owner: {login: owner},
     name: repo,
     node_id: repoID,
-    clone_url,
+    clone_url: url,
   } = repository
 
   // skip archived, disabled, forked and empty repos
@@ -160,7 +160,7 @@ export async function script(octokit, repository) {
     octokit.log.warn({error: error.message}, `  tag protection`)
   }
 
-  octokit.log.info(`  ${clone_url}`)
+  octokit.log.info(`  ✅ ${url}`)
   return true
 }
 

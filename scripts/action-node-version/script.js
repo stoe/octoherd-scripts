@@ -23,10 +23,10 @@ export async function script(octokit, repository, {dryRun = false, verbose = fal
   // skip archived, disabled, forked and empty repos
   if (archived || disabled || fork || size === 0) return
 
-  // skip non javascript repos
+  // skip non JavaScript repos
   const lang = language ? language.toLowerCase() : undefined
   if (lang !== 'javascript') {
-    verbose && octokit.log.info({change: false, lang}, `not a JavaScript repository`)
+    verbose && octokit.log.info({change: false, lang}, `  🙈 not a JavaScript repository`)
     return
   }
 
@@ -54,7 +54,7 @@ export async function script(octokit, repository, {dryRun = false, verbose = fal
       const content = Buffer.from(data.content, 'base64').toString('utf-8')
 
       if (content.includes("using: 'node12'")) {
-        octokit.log.info({change: false, url}, `‼️ needs to be updated from node12 to node16`)
+        octokit.log.warn({url}, `  🪄 needs to be updated from node12 to node16`)
 
         newContent = content.replace("using: 'node12'", "using: 'node16'")
 
@@ -75,9 +75,9 @@ export async function script(octokit, repository, {dryRun = false, verbose = fal
         // open a pull request to replace node12 with node16
         const {data: pr} = await composeCreatePullRequest(octokit, PR)
 
-        octokit.log.info({change: true}, `pull request created ${pr.html_url}`)
+        octokit.log.info({change: true}, `  🤖 pull request created ${pr.html_url}`)
       } else if (content.includes("using: 'node14'")) {
-        octokit.log.info({change: false, url}, `‼️ needs to be updated from node14 to node16`)
+        octokit.log.warn({url}, `  🪄 needs to be updated from node14 to node16`)
 
         newContent = content.replace("using: 'node14'", "using: 'node16'")
 
@@ -98,18 +98,17 @@ export async function script(octokit, repository, {dryRun = false, verbose = fal
         // open a pull request to replace node14 with node16
         const {data: pr} = await composeCreatePullRequest(octokit, PR)
 
-        octokit.log.info({change: true}, `pull request created ${pr.html_url}`)
+        octokit.log.info({change: true}, `  🤖 pull request created ${pr.html_url}`)
       } else if (content.includes("using: 'node16'")) {
-        octokit.log.info({change: false, url}, `✅ already using node16`)
+        verbose && octokit.log.info({url}, `  👍 already using node16`)
         return
       }
-    } else {
-      verbose && octokit.log.info({change: false, lang}, `not a javascript GitHub Actions repository`)
-      return
     }
   } catch (error) {
-    // do nothing
+    verbose && octokit.log.info({change: false, url}, `  🙈 not a GitHub Actions repository`)
+    return
   }
 
+  octokit.log.info(`  ✅ ${url}`)
   return
 }

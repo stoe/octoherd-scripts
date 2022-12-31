@@ -37,7 +37,7 @@ export async function script(octokit, repository, {defaults = false, path = null
   if (defaults) {
     wantLabels = defaultLabels
 
-    octokit.log.info({labels: wantLabels.map(l => l.name)}, `  loaded default labels`)
+    octokit.log.info({labels: wantLabels.map(l => l.name)}, `  🤖 loaded default labels`)
   }
 
   // read labels from provided JSON
@@ -47,7 +47,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
     wantLabels = JSON.parse(str)
 
-    octokit.log.info({path, labels: wantLabels.map(l => l.name)}, `  loaded labels from file`)
+    octokit.log.info({path, labels: wantLabels.map(l => l.name)}, `  🤖 loaded labels from file`)
   }
 
   // load labels from another repo
@@ -69,7 +69,7 @@ export async function script(octokit, repository, {defaults = false, path = null
         return {name, description, color}
       })
 
-      octokit.log.info({template, labels: wantLabels.map(l => l.name)}, `  loaded labels from repository`)
+      octokit.log.info({template, labels: wantLabels.map(l => l.name)}, `  🤖 loaded labels from repository`)
     } catch (error) {
       octokit.log.error(`  ${error.message}`)
       return
@@ -96,7 +96,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
   for (const {name} of deleteLabels) {
     try {
-      octokit.log.info({label: name}, `  deleting`)
+      octokit.log.info({label: name}, `  🚮 deleting`)
 
       // https://docs.github.com/en/rest/reference/issues#delete-a-label
       if (!dryRun) {
@@ -117,7 +117,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
   for (const {name, new_name, color, description} of updateLabels) {
     try {
-      octokit.log.info({label: name}, `  updating`)
+      octokit.log.info({label: name}, `  🆙 updating`)
 
       // https://docs.github.com/en/rest/reference/issues#update-a-label
       if (!dryRun) {
@@ -145,7 +145,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
   for (const {name, color, description} of createLabels) {
     try {
-      octokit.log.info({label: name}, `  creating`)
+      octokit.log.info({label: name}, `  🆕 creating`)
 
       // https://docs.github.com/en/rest/reference/issues#create-a-label
       if (!dryRun) {
