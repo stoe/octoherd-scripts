@@ -134,6 +134,31 @@ export async function script(octokit, repository) {
     octokit.log.warn({error: error.message}, `  settings`)
   }
 
+  // tags
+  try {
+    // enable tag protection if not already enabled
+    // https://docs.github.com/en/rest/repos/tags#list-tag-protection-states-for-a-repository
+    const {data} = await octokit.request('GET /repos/{owner}/{repo}/tags/protection', {
+      owner,
+      repo,
+    })
+
+    if (data.length < 1 || data.every(d => d.pattern !== 'v*.*.*')) {
+      const pattern = 'v*.*.*'
+
+      // https://docs.github.com/en/rest/repos/tags#create-a-tag-protection-state-for-a-repository
+      await octokit.request('POST /repos/{owner}/{repo}/tags/protection', {
+        owner,
+        repo,
+        pattern,
+      })
+      octokit.log.info({created: true}, `  tag protection ${pattern}`)
+    } else {
+      octokit.log.info({skipped: true, patterns: data.map(d => d.pattern)}, `  tag protection`)
+    }
+  } catch (error) {
+    octokit.log.warn({error: error.message}, `  tag protection`)
+  }
 
   octokit.log.info(`  ${clone_url}`)
   return true
