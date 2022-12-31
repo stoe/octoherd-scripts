@@ -2,10 +2,11 @@
   "name": "root",
   "type": "module",
   "workspaces": [
+    "scripts/action-node-version",
+    "scripts/delete-forks",
     "scripts/dependabot-config",
     "scripts/repository-labels",
-    "scripts/repository-settings",
-    "scripts/action-node-version"
+    "scripts/repository-settings"
   ],
   "author": {
     "name": "Stefan Stölzle",

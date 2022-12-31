@@ -10,6 +10,10 @@
 
 > Change Node version all GitHub Actions repositories
 
+### [delete-forks](scripts/delete-forks)
+
+> Delete forked repositories
+
 ### [dependabot-config](scripts/dependabot-config)
 
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
