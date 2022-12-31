@@ -12,7 +12,8 @@ export async function script(octokit, repository) {
     size,
     owner: {login: owner},
     name: repo,
-    node_id: repoID
+    node_id: repoID,
+    clone_url,
   } = repository
 
   // skip archived, disabled, forked and empty repos
@@ -96,12 +97,14 @@ export async function script(octokit, repository) {
       delete_branch_on_merge: true,
       security_and_analysis: {
         secret_scanning: {
-          status: 'enabled'
+          status: 'enabled',
         },
         secret_scanning_push_protection: {
-          status: 'enabled'
-        }
-      }
+          status: 'enabled',
+        },
+      },
+      squash_merge_commit_message: 'COMMIT_MESSAGES',
+      squash_merge_commit_title: 'PR_TITLE',
     }
 
     if (config.security_and_analysis.secret_scanning && repository.private === false) {
@@ -121,11 +124,13 @@ export async function script(octokit, repository) {
 
     await octokit.request('PATCH /repos/{owner}/{repo}', config)
 
-    octokit.log.info({updated: true}, `\tsettings`)
+    octokit.log.info({updated: true}, `  settings`)
   } catch (error) {
-    octokit.log.warn({error: error.message}, `\tsettings`)
+    octokit.log.warn({error: error.message}, `  settings`)
   }
 
+
+  octokit.log.info(`  ${clone_url}`)
   return true
 }
 
