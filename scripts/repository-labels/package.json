@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-repository-labels",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "type": "module",
   "description": "Sync labels across repositories",
   "keywords": [
