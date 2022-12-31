@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-repository-settings",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "type": "module",
   "description": "Apply (my) default respository settings",
   "keywords": [
