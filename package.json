@@ -6,7 +6,8 @@
     "scripts/delete-forks",
     "scripts/dependabot-config",
     "scripts/repository-labels",
-    "scripts/repository-settings"
+    "scripts/repository-settings",
+    "scripts/release-config"
   ],
   "author": {
     "name": "Stefan Stölzle",
