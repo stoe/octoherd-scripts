@@ -8,16 +8,16 @@
 ## Usage
 
 ```sh
-$ npx @stoe/dependabot-config \
+$ npx @stoe/octoherd-script-dependabot-config \
   --octoherd-token ghp_000000000000000000000000000000000000 \
   --octoherd-repos "stoe/*"
 ```
 
 ## Options
 
-| option      | type    | description                              |
-| ----------- | ------- | ---------------------------------------- |
-| `--dry-run` | boolean | show what would be done (default `false) |
+| option      | type    | description                               |
+| ----------- | ------- | ----------------------------------------- |
+| `--dry-run` | boolean | show what would be done (default `false`) |
 
 ## License
 

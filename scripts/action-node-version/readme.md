@@ -7,17 +7,17 @@
 ## Usage
 
 ```sh
-$ npx @stoe/octoherd-action-node-version \
+$ npx @stoe/octoherd-script-action-node-version \
   --octoherd-token ghp_000000000000000000000000000000000000 \
   --octoherd-repos "stoe/*"
 ```
 
 ## Options
 
-| option      | type    | description                              |
-| ----------- | ------- | ---------------------------------------- |
-| `--dry-run` | boolean | show what would be done (default `false) |
-| `--verbose` | boolean | show verbose output (default `false)     |
+| option      | type    | description                               |
+| ----------- | ------- | ----------------------------------------- |
+| `--dry-run` | boolean | show what would be done (default `false`) |
+| `--verbose` | boolean | show verbose output (default `false`)     |
 
 ## License
 

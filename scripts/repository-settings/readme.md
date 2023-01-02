@@ -14,9 +14,9 @@ $ npx @stoe/octoherd-script-repository-settings \
 
 ## Options
 
-| option      | type    | description                              |
-| ----------- | ------- | ---------------------------------------- |
-| `--dry-run` | boolean | show what would be done (default `false) |
+| option      | type    | description                               |
+| ----------- | ------- | ----------------------------------------- |
+| `--dry-run` | boolean | show what would be done (default `false`) |
 
 ## License
 

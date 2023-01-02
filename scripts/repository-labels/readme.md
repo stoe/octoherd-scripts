@@ -17,7 +17,7 @@ $ npx @stoe/octoherd-script-repository-labels \
 
 | option       | type    | description                                       |
 | ------------ | ------- | ------------------------------------------------- |
-| `--dry-run`  | boolean | show what would be done (default `false)          |
+| `--dry-run`  | boolean | show what would be done (default `false`)         |
 | `--defaults` | boolean | use [default labels](./labels.js)                 |
 | `--path`     | string  | path to your labels.json ([example](labels.json)) |
 | `--template` | string  | repository to sync labels from                    |
