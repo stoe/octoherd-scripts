@@ -1,0 +1,42 @@
+{
+  "name": "@stoe/octoherd-script-common",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Common scripts for my @octoherd scripts",
+  "keywords": [
+    "octohed-script",
+    "common"
+  ],
+  "author": {
+    "name": "Stefan Stölzle",
+    "email": "stefan@stoelzle.me",
+    "url": "https://github.com/stoe"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/stoe/octoherd-scripts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "exports": {
+    ".": "./utils.js",
+    "./utils": "./utils.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "utils.js",
+    "license",
+    "readme.md"
+  ],
+  "scripts": {
+    "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
+    "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
+    "test": "eslint '*.js'"
+  },
+  "dependencies": {},
+  "prettier": "@github/prettier-config"
+}
