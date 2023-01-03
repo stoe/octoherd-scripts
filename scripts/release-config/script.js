@@ -32,8 +32,10 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   if (lang !== 'javascript' && lang !== 'go') return
 
   try {
-    const content = readFileSync(resolve(`./release.default.yml`))
-    const contentBuffer = Buffer.from(content, 'base64').toString('utf-8')
+    let ok = octokit
+
+    const newContentBuffer = readFileSync(resolve(`./release.default.yml`))
+    const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
 
     const options = {
       owner,
@@ -41,14 +43,12 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       title: '🤖 Update release notes config',
       head: 'octoherd-script/release-config',
       base: default_branch,
-      body: `This pull request updates the release notes config
-
-ℹ️ https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuring-automatically-generated-release-notes`,
+      body: 'This pull request updates the release notes config',
       createWhenEmpty: false,
       changes: [
         {
           files: {
-            '.github/release.yml': contentBuffer,
+            '.github/release.yml': newContent,
           },
           commit: `🤖 Update .github/release.yml`,
           emptyCommit: false,
@@ -74,28 +74,31 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       create = true
     }
 
-    if (contentBuffer.toString('utf-8') === existingContent) {
+    if (newContent === existingContent) {
       octokit.log.info({change: false}, `  🙊 no changes`)
     } else {
-      let ok = octokit
-      if (appId && privateKey) {
-        ok = await appAuth(repository, appId, privateKey)
-
-        octokit.log.info(`  🤖 authenticated as app`)
-      }
-
       if (create) {
         options.title = '✨ Create release notes config'
-        // eslint-disable-next-line i18n-text/no-en
-        options.body = `This pull request creates the release notes config
-
-  ℹ️ https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuring-automatically-generated-release-notes`
+        options.body = `- ✨ Create .github/release.yml`
         options.changes[0].commit = `✨ Create .github/release.yml`
       }
 
       if (dryRun) {
-        octokit.log.info({...options}, `  🐢 dry-run`)
+        const {title, base, head, changes} = options
+        octokit.log.info({title, base, head, changes}, `  🐢 dry-run`)
       } else {
+        options.body += `
+
+> **Note**
+> [Configuring automatically generated release notes](
+> https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuring-automatically-generated-release-notes)`
+
+        if (appId && privateKey) {
+          ok = await appAuth(repository, appId, privateKey)
+
+          octokit.log.info(`  🤖 authenticated as app`)
+        }
+
         const {
           data: {html_url},
         } = await composeCreatePullRequest(ok, options)
