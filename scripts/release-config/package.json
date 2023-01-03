@@ -1,0 +1,40 @@
+{
+  "name": "@stoe/octoherd-script-release-config",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Apply release config to all repositories",
+  "keywords": [
+    "octohed-script",
+    "release-notes",
+    "config"
+  ],
+  "author": {
+    "name": "Stefan Stölzle",
+    "email": "stefan@stoelzle.me",
+    "url": "https://github.com/stoe"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/stoe/octoherd-scripts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "exports": "./script.js",
+  "bin": {
+    "octoherd-script-release-config": "./cli.js"
+  },
+  "scripts": {
+    "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
+    "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
+    "test": "eslint '*.js'"
+  },
+  "dependencies": {
+    "@octoherd/cli": "^3.6.0",
+    "@octokit/auth-app": "^4.0.7",
+    "octokit-plugin-create-pull-request": "^4.0.0"
+  },
+  "prettier": "@github/prettier-config"
+}

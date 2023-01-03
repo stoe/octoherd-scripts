@@ -30,6 +30,8 @@
           "has_issues",
           "has_projects",
           "has_wiki",
+          "html_url",
+          "installation_id",
           "new_name",
           "node_id",
           "per_page",

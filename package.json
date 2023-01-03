@@ -6,7 +6,8 @@
     "scripts/delete-forks",
     "scripts/dependabot-config",
     "scripts/repository-labels",
-    "scripts/repository-settings"
+    "scripts/repository-settings",
+    "scripts/release-config"
   ],
   "author": {
     "name": "Stefan Stölzle",
@@ -32,7 +33,7 @@
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
     "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-github": "^4.6.0",
     "husky": "^8.0.2"
   },

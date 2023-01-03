@@ -18,7 +18,9 @@
 
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
 
-ℹ️ [Configuration options for the dependabot.yml file - GitHub Docs](https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates)
+### [release-config](scripts/release-config)
+
+> Apply release config to all repositories
 
 ### [repository-labels](scripts/repository-labels)
 
