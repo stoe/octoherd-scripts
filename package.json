@@ -18,8 +18,7 @@
   "license": "MIT",
   "repository": "https://github.com/stoe/octoherd-scripts",
   "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "engines": {
     "node": ">=16",
