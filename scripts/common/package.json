@@ -1,12 +1,11 @@
 {
-  "name": "@stoe/octoherd-action-node-version",
+  "name": "@stoe/octoherd-script-common",
   "version": "1.0.0",
   "type": "module",
-  "description": "Change Node version for JavaScript GitHub Actions",
+  "description": "Common scripts for my @octoherd scripts",
   "keywords": [
     "octohed-script",
-    "github-actions",
-    "node-version"
+    "common"
   ],
   "author": {
     "name": "Stefan Stölzle",
@@ -16,25 +15,28 @@
   "license": "MIT",
   "repository": "https://github.com/stoe/octoherd-scripts",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
   "engines": {
     "node": ">=16",
     "npm": ">=8"
   },
-  "exports": "./script.js",
-  "bin": {
-    "octoherd-action-node-version": "./cli.js"
+  "exports": {
+    ".": "./utils.js",
+    "./utils": "./utils.js",
+    "./package.json": "./package.json"
   },
+  "files": [
+    "utils.js",
+    "license",
+    "readme.md"
+  ],
   "scripts": {
     "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
     "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
     "test": "eslint '*.js'"
   },
-  "dependencies": {
-    "@octoherd/cli": "^3.6.0",
-    "@stoe/octoherd-script-common": "^1.0.0",
-    "octokit-plugin-create-pull-request": "^4.0.0"
-  },
+  "dependencies": {},
   "prettier": "@github/prettier-config"
 }
