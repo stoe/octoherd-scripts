@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-release-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "Apply release config to all repositories",
   "keywords": [
@@ -24,6 +24,13 @@
     "npm": ">=8"
   },
   "exports": "./script.js",
+  "files": [
+    "cli.js",
+    "release.default.yml",
+    "script.js",
+    "license",
+    "readme.md"
+  ],
   "bin": {
     "octoherd-script-release-config": "./cli.js"
   },

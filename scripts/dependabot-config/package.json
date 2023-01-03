@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-dependabot-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "Apply @dependabot config to all repositories",
   "keywords": [
@@ -24,6 +24,16 @@
     "npm": ">=8"
   },
   "exports": "./script.js",
+  "files": [
+    "cli.js",
+    "dependabot.default.yml",
+    "dependabot.go.yml",
+    "dependabot.javascript.yml",
+    "dependabot.terraform.yml",
+    "script.js",
+    "license",
+    "readme.md"
+  ],
   "bin": {
     "octoherd-script-dependabot-config": "./cli.js"
   },
