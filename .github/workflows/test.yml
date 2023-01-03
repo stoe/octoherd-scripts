@@ -11,9 +11,10 @@ on:
       - main
     paths-ignore:
       - '*.md'
+  workflow_dispatch: {}
 
 permissions: read-all
 
 jobs:
   test:
-    uses: stoe/policies/.github/workflows/policy-node-test.yml@main
+    uses: stoe/policies/.github/workflows/policy-node-test.yml@db97a0c8d177fedc2ac686c9d5be594ca61a5f70
