@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   publish:
-    uses: stoe/policies/.github/workflows/policy-node-publish.yml@main
+    uses: stoe/policies/.github/workflows/policy-workspaces-publish.yml@main
     with:
       npm: false
       gh: true
