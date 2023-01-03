@@ -28,7 +28,7 @@ $ npx @stoe/octoherd-script-action-node-version \
 | option          | type    | description                                   |
 | --------------- | ------- | --------------------------------------------- |
 | `--dry-run`     | boolean | show what would be done (default `false`)     |
-| `--app-id`      | integer | GitHub App ID (default `0)                    |
+| `--app-id`      | integer | GitHub App ID (default `0`)                   |
 | `--private-key` | string  | path to GitHub App `.pem` file (default `''`) |
 
 ## License
