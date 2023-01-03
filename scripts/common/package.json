@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-common",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Common scripts for my @octoherd scripts",
   "keywords": [
