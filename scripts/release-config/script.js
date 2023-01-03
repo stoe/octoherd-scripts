@@ -1,9 +1,7 @@
+import {appAuth} from '@stoe/octoherd-script-common'
 import {composeCreatePullRequest} from 'octokit-plugin-create-pull-request'
 import {readFileSync} from 'fs'
 import {resolve} from 'path'
-
-import {Octokit} from '@octoherd/cli'
-import {createAppAuth} from '@octokit/auth-app'
 
 /**
  * @param {import('@octoherd/cli').Octokit} octokit
@@ -80,38 +78,8 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       octokit.log.info({change: false}, `  🙊 no changes`)
     } else {
       let ok = octokit
-
       if (appId && privateKey) {
-        // read key and convert to base64
-        const key = readFileSync(privateKey)
-
-        // authenticate the app
-        const app = new Octokit({
-          authStrategy: createAppAuth,
-          auth: {
-            appId,
-            privateKey: key,
-          },
-        })
-
-        // https://docs.github.com/en/rest/apps/apps#get-a-repository-installation-for-the-authenticated-app
-        const {
-          data: {id: installation_id},
-        } = await app.request('GET /repos/{owner}/{repo}/installation', {
-          owner,
-          repo,
-        })
-
-        // https://docs.github.com/en/rest/reference/apps#create-an-installation-access-token-for-an-app
-        const {
-          data: {token: appToken},
-        } = await app.request('POST /app/installations/{installation_id}/access_tokens', {
-          installation_id,
-        })
-
-        ok = new Octokit({
-          auth: appToken,
-        })
+        ok = await appAuth(repository, appId, privateKey)
 
         octokit.log.info(`  🤖 authenticated as app`)
       }
