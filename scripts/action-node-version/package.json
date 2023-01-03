@@ -1,5 +1,5 @@
 {
-  "name": "@stoe/octoherd-action-node-version",
+  "name": "@stoe/octoherd-script-action-node-version",
   "version": "1.0.4",
   "type": "module",
   "description": "Change Node version for JavaScript GitHub Actions",
