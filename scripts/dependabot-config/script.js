@@ -1,7 +1,10 @@
 import {appAuth} from '@stoe/octoherd-script-common'
 import {composeCreatePullRequest} from 'octokit-plugin-create-pull-request'
 import {readFileSync} from 'fs'
-import {resolve} from 'path'
+import {dirname, resolve} from 'path'
+import {fileURLToPath} from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /**
  * @param {import('@octoherd/cli').Octokit}     octokit
@@ -30,24 +33,24 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   // skip non JavaScript, Golang repos
   const lang = language ? language.toLowerCase() : undefined
 
-  let configPath = undefined
+  let path = undefined
   switch (lang) {
     case 'javascript':
     case 'go':
-      configPath = resolve(process.env.PWD, `./dependabot.${lang}.yml`)
+      path = resolve(__dirname, `./dependabot.${lang}.yml`)
       break
     case 'hcl':
-      configPath = resolve(process.env.PWD, `./dependabot.terraform.yml`)
+      path = resolve(__dirname, `./dependabot.terraform.yml`)
       break
     default:
-      configPath = resolve(process.env.PWD, `./dependabot.default.yml`)
+      path = resolve(__dirname, `./dependabot.default.yml`)
       break
   }
 
   try {
     let ok = octokit
 
-    const newContentBuffer = readFileSync(configPath)
+    const newContentBuffer = readFileSync(path)
     const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
 
     const options = {

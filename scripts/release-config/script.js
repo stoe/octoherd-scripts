@@ -1,7 +1,10 @@
 import {appAuth} from '@stoe/octoherd-script-common'
 import {composeCreatePullRequest} from 'octokit-plugin-create-pull-request'
 import {readFileSync} from 'fs'
-import {resolve} from 'path'
+import {dirname, resolve} from 'path'
+import {fileURLToPath} from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /**
  * @param {import('@octoherd/cli').Octokit} octokit
@@ -34,7 +37,8 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   try {
     let ok = octokit
 
-    const newContentBuffer = readFileSync(resolve(process.env.PWD, `./release.default.yml`))
+    const path = resolve(__dirname, `./release.default.yml`)
+    const newContentBuffer = readFileSync(path)
     const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
 
     const options = {
