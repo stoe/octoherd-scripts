@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-dependabot-config",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "type": "module",
   "description": "Apply @dependabot config to all repositories",
   "keywords": [

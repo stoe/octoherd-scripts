@@ -14,7 +14,7 @@
 
 > Delete forked repositories
 
-### [dependabot-config](scripts/dependabot-config) (🚧 work in progress)
+### [dependabot-config](scripts/dependabot-config)
 
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
 
