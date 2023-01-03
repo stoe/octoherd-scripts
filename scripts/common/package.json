@@ -37,6 +37,9 @@
     "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
     "test": "eslint '*.js'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@octoherd/cli": "^3.6.0",
+    "@octokit/auth-app": "^4.0.7"
+  },
   "prettier": "@github/prettier-config"
 }
