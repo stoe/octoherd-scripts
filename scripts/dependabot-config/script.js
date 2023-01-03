@@ -34,13 +34,13 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   switch (lang) {
     case 'javascript':
     case 'go':
-      configPath = resolve(`./dependabot.${lang}.yml`)
+      configPath = resolve(process.env.PWD, `./dependabot.${lang}.yml`)
       break
     case 'hcl':
-      configPath = resolve(`./dependabot.terraform.yml`)
+      configPath = resolve(process.env.PWD, `./dependabot.terraform.yml`)
       break
     default:
-      configPath = resolve(`./dependabot.default.yml`)
+      configPath = resolve(process.env.PWD, `./dependabot.default.yml`)
       break
   }
 

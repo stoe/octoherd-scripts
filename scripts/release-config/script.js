@@ -34,7 +34,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   try {
     let ok = octokit
 
-    const newContentBuffer = readFileSync(resolve(`./release.default.yml`))
+    const newContentBuffer = readFileSync(resolve(process.env.PWD, `./release.default.yml`))
     const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
 
     const options = {
