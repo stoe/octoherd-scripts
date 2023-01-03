@@ -5,13 +5,35 @@ on:
     tags:
       - 'v*.*.*'
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   publish:
-    uses: stoe/policies/.github/workflows/policy-workspaces-publish.yml@main
-    with:
-      npm: false
-      gh: true
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: publish-workspaces-gh-${{ github.ref }}
+      cancel-in-progress: true
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      CI: true
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+
+      - uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516
+        with:
+          node-version: 16
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@stoe'
+
+      - name: npm install
+        run: |
+          npm pkg delete scripts.prepare
+          npm install --ignore-scripts --pure-lockfile
+          git ls-files -z . | xargs -0 git update-index --assume-unchanged
+
+      - run: npm run publish
