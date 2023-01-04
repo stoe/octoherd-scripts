@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-release-config",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "description": "Apply release config to all repositories",
   "keywords": [
