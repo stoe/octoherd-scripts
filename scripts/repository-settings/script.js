@@ -1,8 +1,12 @@
+import {setTimeout} from 'timers/promises'
+
 /**
  * @param {import('@octoherd/cli').Octokit}     octokit
  * @param {import('@octoherd/cli').Repository}  repository
+ * @param {object}                              [options]
+ * @param {boolean}                             [options.dryRun=false]
  */
-export async function script(octokit, repository) {
+export async function script(octokit, repository, {dryRun = false}) {
   const {
     archived,
     disabled,
@@ -34,103 +38,74 @@ export async function script(octokit, repository) {
 
   try {
     if (rules.length === 0 && language === 'javascript') {
-      await octokit.graphql(createBranchProtectionQuery, {
-        repo: repoID,
-        actors,
-      })
+      if (dryRun) {
+        octokit.log.info({checks: true, language}, `  🐢 dry-run branch protection`)
+      } else {
+        await octokit.graphql(createBranchProtectionQuery, {
+          repo: repoID,
+          actors,
+        })
 
-      octokit.log.info({updated: true, checks: true, language}, `  branch protection`)
+        octokit.log.info({updated: true, checks: true, language}, `  🔏 branch protection`)
+      }
+    } else if (rules.length === 0 && language !== 'javascript') {
+      if (dryRun) {
+        octokit.log.info({checks: true, language}, `  🐢 dry-run branch protection`)
+      } else {
+        await octokit.graphql(createBranchProtectionNoChecksQuery, {
+          repo: repoID,
+          actors,
+        })
+
+        octokit.log.info({updated: true, checks: true, language}, `  🔏 branch protection`)
+      }
     } else {
       for (const rule of rules) {
         const {pattern, id, requiredStatusChecks} = rule
 
         if (requiredStatusChecks.length === 0) {
-          await octokit.graphql(updateBranchProtectionNoChecksQuery, {
-            branchProtectionRuleId: id,
-            pattern,
-            actors,
-          })
-          octokit.log.info({updated: true, checks: false, pattern, language}, `  branch protection`)
+          if (dryRun) {
+            octokit.log.info({checks: false, pattern, requiredStatusChecks, language}, `  🐢 dry-run branch protection`)
+          } else {
+            await octokit.graphql(updateBranchProtectionNoChecksQuery, {
+              branchProtectionRuleId: id,
+              pattern,
+              actors,
+            })
+            octokit.log.info(
+              {updated: true, checks: false, pattern, requiredStatusChecks, language},
+              `  🔏 branch protection`,
+            )
+          }
           continue
         }
 
         if (['main', 'master'].includes(pattern)) {
-          await octokit.graphql(updateBranchProtectionQuery, {
-            branchProtectionRuleId: id,
-            pattern,
-            actors,
-          })
+          if (dryRun) {
+            octokit.log.info({checks: true, pattern, requiredStatusChecks, language}, `  🐢 dry-run branch protection`)
+          } else {
+            await octokit.graphql(updateBranchProtectionQuery, {
+              branchProtectionRuleId: id,
+              pattern,
+              actors,
+            })
 
-          octokit.log.info({updated: true, checks: true, pattern, language}, `  branch protection`)
+            octokit.log.info(
+              {updated: true, checks: true, pattern, requiredStatusChecks, language},
+              `  🔏 branch protection`,
+            )
+          }
         } else {
-          octokit.log.info({skipped: true, pattern}, `  branch protection`)
+          octokit.log.info({skipped: true, pattern}, `  🙊 branch protection`)
         }
       }
     }
   } catch (error) {
-    octokit.log.warn({error: error.message}, `  branch protection`)
+    octokit.log.error({error: error.message}, `  ❌ branch protection`)
   }
 
-  // settings
-  try {
-    // https://docs.github.com/en/rest/reference/repos#enable-vulnerability-alerts
-    await octokit.request('PUT /repos/{owner}/{repo}/vulnerability-alerts', {
-      owner,
-      repo,
-    })
-
-    // https://docs.github.com/en/rest/reference/repos#enable-automated-security-fixes
-    await octokit.request('PUT /repos/{owner}/{repo}/automated-security-fixes', {
-      owner,
-      repo,
-    })
-
-    // https://docs.github.com/en/rest/reference/repos#update-a-repository
-    const config = {
-      owner,
-      repo,
-      name: repo,
-      has_issues: 'yes',
-      has_projects: false,
-      has_wiki: false,
-      allow_squash_merge: true,
-      allow_merge_commit: false,
-      allow_rebase_merge: false,
-      allow_auto_merge: true,
-      delete_branch_on_merge: true,
-      security_and_analysis: {
-        secret_scanning: {
-          status: 'enabled',
-        },
-        secret_scanning_push_protection: {
-          status: 'enabled',
-        },
-      },
-      squash_merge_commit_message: 'COMMIT_MESSAGES',
-      squash_merge_commit_title: 'PR_TITLE',
-    }
-
-    if (config.security_and_analysis.secret_scanning && repository.private === false) {
-      // Secret Scanning is enabled on public repositories
-      delete config.security_and_analysis.secret_scanning
-    }
-
-    if (config.security_and_analysis.secret_scanning && ownerType === 'User') {
-      // Secret Scanning can only be set on organization owned repositories
-      delete config.security_and_analysis.secret_scanning
-      delete config.security_and_analysis.secret_scanning_push_protection
-    }
-
-    if (Object.keys(config.security_and_analysis).length === 0) {
-      delete config.security_and_analysis
-    }
-
-    await octokit.request('PATCH /repos/{owner}/{repo}', config)
-
-    octokit.log.info({updated: true}, `  settings`)
-  } catch (error) {
-    octokit.log.warn({error: error.message}, `  settings`)
-  }
+  // sleep 1 second
+  await setTimeout(1000)
 
   // tags
   try {
@@ -142,20 +117,155 @@ export async function script(octokit, repository) {
     })
 
     if (data.length < 1 || data.every(d => d.pattern !== 'v*.*.*')) {
-      const pattern = 'v*.*.*'
+      const tagPattern = 'v*.*.*'
 
-      // https://docs.github.com/en/rest/repos/tags#create-a-tag-protection-state-for-a-repository
-      await octokit.request('POST /repos/{owner}/{repo}/tags/protection', {
-        owner,
-        repo,
-        pattern,
-      })
-      octokit.log.info({created: true}, `  tag protection ${pattern}`)
+      if (dryRun) {
+        octokit.log.info({checks: true}, `  🐢 dry-run tag protection ${tagPattern}`)
+      } else {
+        // https://docs.github.com/en/rest/repos/tags#create-a-tag-protection-state-for-a-repository
+        await octokit.request('POST /repos/{owner}/{repo}/tags/protection', {
+          owner,
+          repo,
+          pattern: tagPattern,
+        })
+
+        octokit.log.info({checks: true}, `  🔒 tag protection ${tagPattern}`)
+      }
     } else {
-      octokit.log.info({skipped: true, patterns: data.map(d => d.pattern)}, `  tag protection`)
+      octokit.log.info({skipped: true, patterns: data.map(d => d.pattern)}, `  🙊 tag protection`)
     }
   } catch (error) {
-    octokit.log.warn({error: error.message}, `  tag protection`)
+    octokit.log.error({error: error.message}, `  ❌ tag protection`)
+  }
+
+  // sleep 1 second
+  await setTimeout(1000)
+
+  // settings
+  // https://docs.github.com/en/rest/reference/repos#update-a-repository
+  const config = {
+    owner,
+    repo,
+    name: repo,
+    has_issues: true,
+    has_projects: false,
+    has_wiki: false,
+    allow_squash_merge: true,
+    allow_merge_commit: false,
+    allow_rebase_merge: false,
+    allow_auto_merge: true,
+    delete_branch_on_merge: true,
+    security_and_analysis: {
+      secret_scanning: {
+        status: 'enabled',
+      },
+      secret_scanning_push_protection: {
+        status: 'enabled',
+      },
+    },
+    squash_merge_commit_message: 'COMMIT_MESSAGES',
+    squash_merge_commit_title: 'PR_TITLE',
+  }
+
+  try {
+    if (dryRun) {
+      octokit.log.info({updated: true}, `  🐢 dry-run vulnerability alerts`)
+    } else {
+      // https://docs.github.com/en/rest/reference/repos#enable-vulnerability-alerts
+      await octokit.request('PUT /repos/{owner}/{repo}/vulnerability-alerts', {
+        owner,
+        repo,
+      })
+
+      octokit.log.info({updated: true}, `  🔐 automated security fixes`)
+
+      // sleep 1 second
+      await setTimeout(1000)
+    }
+
+    if (dryRun) {
+      octokit.log.info({updated: true}, `  🐢 dry-run automated security fixes`)
+    } else {
+      // https://docs.github.com/en/rest/reference/repos#enable-automated-security-fixes
+      await octokit.request('PUT /repos/{owner}/{repo}/automated-security-fixes', {
+        owner,
+        repo,
+      })
+
+      octokit.log.info({updated: true}, `  🔐 vulnerability alerts`)
+
+      // sleep 1 second
+      await setTimeout(1000)
+    }
+
+    if (config.security_and_analysis.secret_scanning && repository.visibility === 'public') {
+      // Secret Scanning is enabled on public repositories
+      delete config.security_and_analysis.secret_scanning
+
+      octokit.log.info({skipped: true, visibility: repository.visibility, type: ownerType}, `  🙊 secret scanning`)
+    }
+
+    if (
+      (config.security_and_analysis.secret_scanning || config.security_and_analysis.secret_scanning_push_protection) &&
+      ownerType === 'User'
+    ) {
+      // Secret Scanning can only be set on organization owned repositories
+      delete config.security_and_analysis.secret_scanning
+      delete config.security_and_analysis.secret_scanning_push_protection
+
+      octokit.log.info(
+        {skipped: true, visibility: repository.visibility, type: ownerType},
+        `  🙊 secret scanning push protection`,
+      )
+    }
+
+    if (Object.keys(config.security_and_analysis).length === 0) {
+      delete config.security_and_analysis
+    } else {
+      if (config.security_and_analysis.secret_scanning) {
+        octokit.log.info({updated: true, visibility: repository.visibility, type: ownerType}, `  🔐 secret scanning`)
+      }
+
+      if (config.security_and_analysis.secret_scanning_push_protection) {
+        octokit.log.info(
+          {updated: true, visibility: repository.visibility, type: ownerType},
+          `  🔐 secret scanning push protection`,
+        )
+      }
+    }
+
+    if (dryRun) {
+      const c = {}
+      for (const [key, value] of Object.entries(config)) {
+        if (!['owner', 'repo', 'name'].includes(key)) {
+          c[key] = value
+        }
+      }
+
+      octokit.log.info(
+        {
+          updated: true,
+          config: c,
+        },
+        `  🐢 dry-run settings`,
+      )
+    } else {
+      await octokit.request('PATCH /repos/{owner}/{repo}', config)
+
+      octokit.log.info({updated: true}, `  🔧 settings`)
+
+      // sleep 1 second
+      await setTimeout(1000)
+    }
+  } catch (error) {
+    octokit.log.warn({error: error.message}, `  ❌ settings, retrying without secret scanning`)
+
+    if (error.message === 'Secret scanning can only be enabled on repos where Advanced Security is enabled') {
+      delete config.security_and_analysis.secret_scanning
+      await octokit.request('PATCH /repos/{owner}/{repo}', config)
+
+      octokit.log.info({updated: true}, `  🔧 settings`)
+    }
   }
 
   octokit.log.info(`  ✅ ${url}`)
@@ -204,7 +314,47 @@ const createBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test", "test / test-matrix (16)"]
+    requiredStatusCheckContexts: ["test", "test-matrix (16)"]
+
+    requiresConversationResolution: true
+
+    requiresCommitSignatures: true
+
+    requiresLinearHistory: true
+
+    restrictsPushes: false
+
+    isAdminEnforced: false
+
+    allowsForcePushes: false
+    bypassForcePushActorIds: $actors
+    bypassPullRequestActorIds: $actors
+
+    allowsDeletions: false
+  }) {
+    clientMutationId
+  }
+}`
+
+// https://docs.github.com/en/graphql/reference/input-objects#createbranchprotectionruleinput
+const createBranchProtectionNoChecksQuery = `mutation(
+  $repo: ID!,
+  $actors: [ID!] = []
+) {
+  createBranchProtectionRule(input: {
+    clientMutationId: "@stoe/octoherd-script-repo-settings"
+    repositoryId: $repo
+    pattern: "main"
+
+    requiresApprovingReviews: true
+    requiredApprovingReviewCount: 0
+    requiresCodeOwnerReviews: true
+    restrictsReviewDismissals: false
+    requireLastPushApproval: true
+
+    requiresStatusChecks: false
+    requiresStrictStatusChecks: false
+    requiredStatusCheckContexts: []
 
     requiresConversationResolution: true
 
@@ -246,7 +396,7 @@ const updateBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test", "test / test-matrix (16)"]
+    requiredStatusCheckContexts: ["test", "test-matrix (16)"]
 
     requiresConversationResolution: true
 
