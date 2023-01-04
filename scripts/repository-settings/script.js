@@ -39,25 +39,25 @@ export async function script(octokit, repository, {dryRun = false}) {
   try {
     if (rules.length === 0 && language === 'javascript') {
       if (dryRun) {
-        octokit.log.info({checks: true, language}, `  🐢 dry-run branch protection`)
+        octokit.log.info({checks: true, language}, `  🐢 dry-run create branch protection (checks)`)
       } else {
         await octokit.graphql(createBranchProtectionQuery, {
           repo: repoID,
           actors,
         })
 
-        octokit.log.info({updated: true, checks: true, language}, `  🔏 branch protection`)
+        octokit.log.info({updated: true, checks: true, language}, `  🔏 create branch protection (checks)`)
       }
     } else if (rules.length === 0 && language !== 'javascript') {
       if (dryRun) {
-        octokit.log.info({checks: true, language}, `  🐢 dry-run branch protection`)
+        octokit.log.info({checks: true, language}, `  🐢 dry-run create branch protection (checks)`)
       } else {
         await octokit.graphql(createBranchProtectionNoChecksQuery, {
           repo: repoID,
           actors,
         })
 
-        octokit.log.info({updated: true, checks: true, language}, `  🔏 branch protection`)
+        octokit.log.info({updated: true, checks: true, language}, `  🔏 create branch protection (no checks)`)
       }
     } else {
       for (const rule of rules) {
@@ -65,16 +65,17 @@ export async function script(octokit, repository, {dryRun = false}) {
 
         if (requiredStatusChecks.length === 0) {
           if (dryRun) {
-            octokit.log.info({checks: false, pattern, requiredStatusChecks, language}, `  🐢 dry-run branch protection`)
+            octokit.log.info({checks: false, pattern, language}, `  🐢 dry-run update branch protection (no checks)`)
           } else {
             await octokit.graphql(updateBranchProtectionNoChecksQuery, {
               branchProtectionRuleId: id,
               pattern,
               actors,
             })
+
             octokit.log.info(
-              {updated: true, checks: false, pattern, requiredStatusChecks, language},
-              `  🔏 branch protection`,
+              {updated: true, checks: false, pattern, language},
+              `  🔏 update branch protection (no checks)`,
             )
           }
           continue
@@ -82,7 +83,7 @@ export async function script(octokit, repository, {dryRun = false}) {
 
         if (['main', 'master'].includes(pattern)) {
           if (dryRun) {
-            octokit.log.info({checks: true, pattern, requiredStatusChecks, language}, `  🐢 dry-run branch protection`)
+            octokit.log.info({checks: true, pattern, language}, `  🐢 dry-run update branch protection (checks)`)
           } else {
             await octokit.graphql(updateBranchProtectionQuery, {
               branchProtectionRuleId: id,
@@ -90,10 +91,7 @@ export async function script(octokit, repository, {dryRun = false}) {
               actors,
             })
 
-            octokit.log.info(
-              {updated: true, checks: true, pattern, requiredStatusChecks, language},
-              `  🔏 branch protection`,
-            )
+            octokit.log.info({updated: true, checks: true, pattern, language}, `  🔏 update branch protection (checks)`)
           }
         } else {
           octokit.log.info({skipped: true, pattern}, `  🙊 branch protection`)
@@ -314,7 +312,7 @@ const createBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test", "test-matrix (16)"]
+    requiredStatusCheckContexts: ["test / test", "test / test-matrix (16)"]
 
     requiresConversationResolution: true
 
@@ -396,7 +394,7 @@ const updateBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test", "test-matrix (16)"]
+    requiredStatusCheckContexts: ["test / test", "test / test-matrix (16)"]
 
     requiresConversationResolution: true
 
