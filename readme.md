@@ -10,6 +10,10 @@
 
 > Change Node version all GitHub Actions repositories
 
+### [cleanup-archived-repos](scripts/cleanup-archived-repos)
+
+> Close issues/PRs in archibed repositories
+
 ### [delete-forks](scripts/delete-forks)
 
 > Delete forked repositories

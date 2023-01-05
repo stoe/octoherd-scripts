@@ -3,6 +3,7 @@
   "type": "module",
   "workspaces": [
     "scripts/action-node-version",
+    "scripts/cleanup-archived-repos",
     "scripts/common",
     "scripts/delete-forks",
     "scripts/dependabot-config",

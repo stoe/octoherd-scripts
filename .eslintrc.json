@@ -32,13 +32,15 @@
           "has_wiki",
           "html_url",
           "installation_id",
+          "issue_number",
           "new_name",
           "node_id",
           "per_page",
           "security_and_analysis",
           "secret_scanning",
           "squash_merge_commit_message",
-          "squash_merge_commit_title"
+          "squash_merge_commit_title",
+          "state_reason"
         ]
       }
     ],
