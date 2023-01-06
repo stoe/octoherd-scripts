@@ -1,0 +1,50 @@
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  # schedule:
+  #   - cron: '36 16 * * 6'
+
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: codeql-${{ github.ref }}
+      cancel-in-progress: true
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    env:
+      CI: true
+      LGTM_INDEX_FILTERS: 'exclude:dist/*'
+
+    strategy:
+      matrix:
+        language:
+          - __LANGUAGE__
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@896079047b4bb059ba6f150a5d87d47dde99e6e5
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@896079047b4bb059ba6f150a5d87d47dde99e6e5
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@896079047b4bb059ba6f150a5d87d47dde99e6e5
+        with:
+          category: '/language:${{matrix.language}}'

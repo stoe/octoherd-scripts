@@ -4,6 +4,7 @@
   "workspaces": [
     "scripts/action-node-version",
     "scripts/cleanup-archived-repos",
+    "scripts/codeql",
     "scripts/common",
     "scripts/delete-forks",
     "scripts/dependabot-config",
