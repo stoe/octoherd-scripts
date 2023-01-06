@@ -25,7 +25,7 @@
   },
   "exports": "./script.js",
   "bin": {
-    "octoherd-action-node-version": "./cli.js"
+    "octoherd-script-cleanup-archived-repos": "./cli.js"
   },
   "scripts": {
     "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
