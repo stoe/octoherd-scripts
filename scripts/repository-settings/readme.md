@@ -1,5 +1,7 @@
 # octoherd-script: repository-settings
 
+[![repository-settings version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-settings%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-settings)
+
 > Apply my default respository settings
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.

@@ -1,5 +1,7 @@
 # octoherd-script: action-node-version
 
+[![action-node-version version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Faction-node-version%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-action-node-version)
+
 > Change Node version all GitHub Actions repositories
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.
