@@ -1,5 +1,7 @@
 # octoherd-script: repository-labels
 
+[![repository-labels version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-labels%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-labels)
+
 > Sync labels across repositories
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.

@@ -1,5 +1,7 @@
 # octoherd-script: delete-forks
 
+[![delete-forks version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-forks%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-forks)
+
 > Delete forked repositories
 
 ## Usage

@@ -1,5 +1,7 @@
 # octoherd-script: dependabot-config
 
+[![dependabot-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdependabot-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-dependabot-config)
+
 > Apply [@dependabot](https://github.com/dependabot) config to all repositories
 > ℹ️ https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates
 >
