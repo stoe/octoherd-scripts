@@ -6,6 +6,7 @@
     "scripts/cleanup-archived-repos",
     "scripts/common",
     "scripts/delete-forks",
+    "scripts/delete-repo",
     "scripts/dependabot-config",
     "scripts/repository-labels",
     "scripts/repository-settings",

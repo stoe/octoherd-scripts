@@ -24,6 +24,12 @@
 
 > Delete forked repositories
 
+### [delete-repo](scripts/delete-repo)
+
+[![delete-repo version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-repo%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-repo)
+
+> Delete repositories
+
 ### [dependabot-config](scripts/dependabot-config)
 
 [![dependabot-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdependabot-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-dependabot-config)

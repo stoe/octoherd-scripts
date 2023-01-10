@@ -1,0 +1,39 @@
+{
+  "name": "@stoe/octoherd-script-delete-repo",
+  "version": "0.0.0-development",
+  "type": "module",
+  "description": "Delete repositories",
+  "keywords": [
+    "octohed-script",
+    "repository",
+    "delete"
+  ],
+  "author": {
+    "name": "Stefan Stölzle",
+    "email": "stefan@stoelzle.me",
+    "url": "https://github.com/stoe"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/stoe/octoherd-scripts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "exports": "./script.js",
+  "bin": {
+    "octoherd-script-delete-repo": "./cli.js"
+  },
+  "scripts": {
+    "format": "npx prettier --ignore-path ../../.prettierignore --config-precedence prefer-file --write . && eslint '*.js' --fix",
+    "pretest": "npx eslint-config-prettier ../../.eslintrc.json",
+    "test": "eslint '*.js'"
+  },
+  "dependencies": {
+    "@octoherd/cli": "^3.6.0"
+  },
+  "prettier": "@github/prettier-config"
+}
