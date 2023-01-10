@@ -14,8 +14,6 @@ $ npx @stoe/octoherd-script-action-node-version \
   --octoherd-repos "stoe/*"
 ```
 
-````
-
 ```sh
 # to authenticate as GitHub App
 $ npx @stoe/octoherd-script-action-node-version \
@@ -23,7 +21,7 @@ $ npx @stoe/octoherd-script-action-node-version \
   --octoherd-repos "stoe/*"
   --app-id 12345 \
   --private-key ./private-key.pem
-````
+```
 
 ## Options
 
