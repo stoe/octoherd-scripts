@@ -96,9 +96,9 @@ export async function script(octokit, repository, {defaults = false, path = null
     })
   })
 
-  for (const {name} of deleteLabels) {
+  for (const {name, description, color} of deleteLabels) {
     try {
-      octokit.log.info({label: name}, `  🚮 deleting`)
+      octokit.log.info({name, description, color}, `  🚮 deleting`)
 
       // https://docs.github.com/en/rest/reference/issues#delete-a-label
       if (!dryRun) {
@@ -119,7 +119,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
   for (const {name, new_name, color, description} of updateLabels) {
     try {
-      octokit.log.info({label: name}, `  🆙 updating`)
+      octokit.log.info({name, new_name, description, color}, `  🆙 updating`)
 
       // https://docs.github.com/en/rest/reference/issues#update-a-label
       if (!dryRun) {
@@ -147,7 +147,7 @@ export async function script(octokit, repository, {defaults = false, path = null
 
   for (const {name, color, description} of createLabels) {
     try {
-      octokit.log.info({label: name}, `  🆕 creating`)
+      octokit.log.info({name, description, color}, `  🆕 creating`)
 
       // https://docs.github.com/en/rest/reference/issues#create-a-label
       if (!dryRun) {
