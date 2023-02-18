@@ -9,9 +9,10 @@
     "scripts/delete-forks",
     "scripts/delete-repo",
     "scripts/dependabot-config",
+    "scripts/release-config",
     "scripts/repository-labels",
     "scripts/repository-settings",
-    "scripts/release-config"
+    "scripts/workflow-shas"
   ],
   "author": {
     "name": "Stefan Stölzle",

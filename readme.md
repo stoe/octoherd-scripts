@@ -60,6 +60,12 @@
 
 > Apply my default respository settings
 
+### [workflow-shas](scripts/workflow-shas)
+
+[![workflow-shas version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fworkflow-shas%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-workflow-shas)
+
+> Replace Action versions with SHAs
+
 ## License
 
 [MIT](license)
