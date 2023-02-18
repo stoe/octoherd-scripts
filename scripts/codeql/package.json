@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-codeql",
-  "version": "0.0.0-development",
+  "version": "1.2.0",
   "type": "module",
   "description": "Add CodeQL GitHub Action workflow to all repositories",
   "keywords": [
