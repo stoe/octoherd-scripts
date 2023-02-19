@@ -2,7 +2,7 @@
   "name": "@stoe/octoherd-script-release-config",
   "version": "2.0.0",
   "type": "module",
-  "description": "Apply release config to all repositories",
+  "description": "Apply release config to repositories",
   "keywords": [
     "octohed-script",
     "release-notes",

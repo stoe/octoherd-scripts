@@ -2,7 +2,7 @@
 
 [![codeql version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcodeql%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-codeql)
 
-> Add CodeQL GitHub Action workflow to all repositories
+> Add CodeQL GitHub Action workflow to repositories
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.
 

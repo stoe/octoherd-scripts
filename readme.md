@@ -10,7 +10,7 @@
 
 [![action-node-version version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Faction-node-version%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-action-node-version)
 
-> Change Node version all GitHub Actions repositories
+> Change Node version for JavaScript GitHub Actions
 
 ### [cleanup-archived-repos](scripts/cleanup-archived-repos)
 
@@ -22,7 +22,7 @@
 
 [![codeql version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcodeql%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-codeql)
 
-> Add CodeQL GitHub Action workflow to all repositories
+> Add CodeQL GitHub Action workflow to repositories
 
 ### [delete-forks](scripts/delete-forks)
 
@@ -40,13 +40,13 @@
 
 [![dependabot-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdependabot-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-dependabot-config)
 
-> Apply [@dependabot](https://github.com/dependabot) config to all repositories
+> Apply [@dependabot](https://github.com/dependabot) config to repositories
 
 ### [release-config](scripts/release-config)
 
 [![release-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frelease-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-release-config)
 
-> Apply release config to all repositories
+> Apply release config to repositories
 
 ### [repository-labels](scripts/repository-labels)
 
@@ -58,7 +58,7 @@
 
 [![repository-settings version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-settings%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-settings)
 
-> Apply my default respository settings
+> Apply settings across repositories
 
 ### [workflow-shas](scripts/workflow-shas)
 

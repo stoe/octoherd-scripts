@@ -2,7 +2,7 @@
   "name": "@stoe/octoherd-script-repository-settings",
   "version": "2.0.0",
   "type": "module",
-  "description": "Apply (my) default respository settings",
+  "description": "Apply settings across repositories",
   "keywords": [
     "octohed-script",
     "repository",

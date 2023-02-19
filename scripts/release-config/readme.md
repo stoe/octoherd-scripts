@@ -2,7 +2,7 @@
 
 [![release-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frelease-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-release-config)
 
-> Apply release config to all repositories
+> Apply release config to repositories
 > ℹ️ https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuring-automatically-generated-release-notes
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.
