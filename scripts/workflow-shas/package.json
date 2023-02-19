@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-workflow-shas",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "description": "Replace Action versions with SHAs",
   "keywords": [
