@@ -32,7 +32,8 @@
     "prepare": "husky install ./.github/husky",
     "format": "npm run format --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "publish": "npm publish --access public --workspaces"
+    "publish": "npm publish --access public --workspaces",
+    "update": "./.github/scripts/update.sh"
   },
   "dependencies": {
     "@octoherd/cli": "^3.6.2",
