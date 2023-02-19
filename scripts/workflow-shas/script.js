@@ -27,9 +27,14 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
   try {
     let ok = octokit
     if (appId && privateKey) {
-      ok = await appAuth(repository, appId, privateKey)
+      try {
+        ok = await appAuth(repository, appId, privateKey)
 
-      octokit.log.info(`  🤖 authenticated as app`)
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
     }
 
     // https://docs.github.com/en/rest/reference/repos#get-repository-content
@@ -107,6 +112,8 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
           content = content.replace(action, replace)
 
           hasChanges = true
+
+          octokit.log.info({change: !dryRun}, `  ${dryRun ? '🐢 dry-run:' : '🔀'} replacing ${action} with ${replace}`)
         } catch (error) {
           octokit.log.info({change: false}, `  🙈 no release found for ${action}`)
           continue

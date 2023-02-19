@@ -14,11 +14,22 @@ $ npx @stoe/octoherd-script-cleanup-archived-repos \
   --octoherd-repos "stoe/*"
 ```
 
+```sh
+# to authenticate as GitHub App
+$ npx @stoe/octoherd-script-cleanup-archived-repos \
+  --octoherd-token ghp_000000000000000000000000000000000000 \
+  --octoherd-repos "stoe/*"
+  --app-id 12345 \
+  --private-key ./private-key.pem
+```
+
 ## Options
 
-| option      | type    | description                               |
-| ----------- | ------- | ----------------------------------------- |
-| `--dry-run` | boolean | show what would be done (default `false`) |
+| option          | type    | description                                   |
+| --------------- | ------- | --------------------------------------------- |
+| `--dry-run`     | boolean | show what would be done (default `false`)     |
+| `--app-id`      | integer | GitHub App ID (default `0`)                   |
+| `--private-key` | string  | path to GitHub App `.pem` file (default `''`) |
 
 ## License
 

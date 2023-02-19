@@ -73,6 +73,16 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
   try {
     let ok = octokit
+    if (appId && privateKey) {
+      try {
+        ok = await appAuth(repository, appId, privateKey)
+
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
+    }
 
     const newContentBuffer = readFileSync(path)
     const newContentStr = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
@@ -104,7 +114,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       // https://docs.github.com/en/rest/reference/repos#get-repository-content
       const {
         data: {content: existingContentBase64},
-      } = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+      } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner,
         repo,
         path: '.github/workflows/codeql.yml',
@@ -128,12 +138,6 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
         const {title, base, head, changes} = options
         octokit.log.info({lang, title, base, head, changes}, `  🐢 dry-run`)
       } else {
-        if (appId && privateKey) {
-          ok = await appAuth(repository, appId, privateKey)
-
-          octokit.log.info(`  🤖 authenticated as app`)
-        }
-
         const {
           data: {html_url},
         } = await composeCreatePullRequest(ok, options)
