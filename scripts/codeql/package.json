@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-codeql",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "type": "module",
   "description": "Add CodeQL GitHub Action workflow to all repositories",
   "keywords": [
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@octoherd/cli": "^3.6.2",
-    "@stoe/octoherd-script-common": "^1.2.1",
+    "@stoe/octoherd-script-common": "latest",
     "octokit-plugin-create-pull-request": "^4.1.1"
   },
   "prettier": "@github/prettier-config"
