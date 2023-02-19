@@ -25,7 +25,11 @@ jobs:
 
     env:
       CI: true
-      LGTM_INDEX_FILTERS: 'exclude:dist/*'
+      LGTM_INDEX_FILTERS: |
+        exclude:*/build/*
+        exclude:*/cache/*
+        exclude:*/dist/*
+        exclude:*/test/*
 
     strategy:
       matrix:
