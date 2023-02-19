@@ -6,65 +6,26 @@
 
 ## Scripts
 
-### [action-node-version](scripts/action-node-version)
-
-[![action-node-version version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Faction-node-version%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-action-node-version)
-
-> Change Node version for JavaScript GitHub Actions
-
-### [cleanup-archived-repos](scripts/cleanup-archived-repos)
-
-[![cleanup-archived-repos version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcleanup-archived-repos%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-cleanup-archived-repos)
-
-> Close issues/PRs in archived repositories
-
-### [codeql](scripts/codeql)
-
-[![codeql version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcodeql%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-codeql)
-
-> Add CodeQL GitHub Action workflow to repositories
-
-### [delete-forks](scripts/delete-forks)
-
-[![delete-forks version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-forks%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-forks)
-
-> Delete forked repositories
-
-### [delete-repo](scripts/delete-repo)
-
-[![delete-repo version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-repo%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-repo)
-
-> Delete repositories
-
-### [dependabot-config](scripts/dependabot-config)
-
-[![dependabot-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdependabot-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-dependabot-config)
-
-> Apply [@dependabot](https://github.com/dependabot) config to repositories
-
-### [release-config](scripts/release-config)
-
-[![release-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frelease-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-release-config)
-
-> Apply release config to repositories
-
-### [repository-labels](scripts/repository-labels)
-
-[![repository-labels version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-labels%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-labels)
-
-> Sync labels across repositories
-
-### [repository-settings](scripts/repository-settings)
-
-[![repository-settings version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-settings%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-settings)
-
-> Apply settings across repositories
-
-### [workflow-shas](scripts/workflow-shas)
-
-[![workflow-shas version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fworkflow-shas%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-workflow-shas)
-
-> Replace Action versions with SHAs
+- [action-node-version](scripts/action-node-version) [![action-node-version version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Faction-node-version%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-action-node-version)
+    > Change Node version for JavaScript GitHub Actions
+- [cleanup-archived-repos](scripts/cleanup-archived-repos) [![cleanup-archived-repos version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcleanup-archived-repos%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-cleanup-archived-repos)
+    > Close issues/PRs in archived repositories
+- [codeql](scripts/codeql) [![codeql version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcodeql%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-codeql)
+    > Add CodeQL GitHub Action workflow to repositories
+- [delete-forks](scripts/delete-forks) [![delete-forks version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-forks%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-forks)
+    > Delete forked repositories
+- [delete-repo](scripts/delete-repo) [![delete-repo version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdelete-repo%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-delete-repo)
+    > Delete repositories
+- [dependabot-config](scripts/dependabot-config) [![dependabot-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fdependabot-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-dependabot-config)
+    > Apply [@dependabot](https://github.com/dependabot) config to repositories
+- [release-config](scripts/release-config) [![release-config version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frelease-config%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-release-config)
+    > Apply release config to repositories
+- [repository-labels](scripts/repository-labels) [![repository-labels version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-labels%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-labels)
+    > Sync labels across repositories
+- [repository-settings](scripts/repository-settings) [![repository-settings version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-settings%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-settings)
+    > Apply settings across repositories
+- [workflow-shas](scripts/workflow-shas) [![workflow-shas version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fworkflow-shas%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-workflow-shas)
+    > Replace Action versions with SHAs
 
 ## License
 
