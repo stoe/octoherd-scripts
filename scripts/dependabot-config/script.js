@@ -49,6 +49,16 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
   try {
     let ok = octokit
+    if (appId && privateKey) {
+      try {
+        ok = await appAuth(repository, appId, privateKey)
+
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
+    }
 
     const newContentBuffer = readFileSync(path)
     const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
@@ -79,7 +89,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       // https://docs.github.com/en/rest/reference/repos#get-repository-content
       const {
         data: {content: existingContentBase64},
-      } = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+      } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner,
         repo,
         path: '.github/dependabot.yml',
@@ -107,12 +117,6 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
 > **Note**
 > [Configure dependabot.yml](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)`
-
-        if (appId && privateKey) {
-          ok = await appAuth(repository, appId, privateKey)
-
-          octokit.log.info(`  🤖 authenticated as app`)
-        }
 
         const {
           data: {html_url},

@@ -33,7 +33,8 @@
     "test": "eslint '*.js'"
   },
   "dependencies": {
-    "@octoherd/cli": "^3.6.2"
+    "@octoherd/cli": "^3.6.2",
+    "@stoe/octoherd-script-common": "^1.2.1"
   },
   "prettier": "@github/prettier-config"
 }

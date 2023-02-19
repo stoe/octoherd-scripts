@@ -1,12 +1,15 @@
+import {appAuth} from '@stoe/octoherd-script-common'
 import {setTimeout} from 'timers/promises'
 
 /**
  * @param {import('@octoherd/cli').Octokit}    octokit
  * @param {import('@octoherd/cli').Repository} repository
  * @param {object}                             options
+ * @param {int}                                [options.appId=0]
+ * @param {string}                             [options.privateKey='']
  * @param {boolean}                            [options.dryRun=false]
  */
-export async function script(octokit, repository, {dryRun = false}) {
+export async function script(octokit, repository, {appId = 0, privateKey = '', dryRun = false}) {
   const {
     archived,
     name: repo,
@@ -18,12 +21,24 @@ export async function script(octokit, repository, {dryRun = false}) {
   if (!archived) return
 
   try {
+    let ok = octokit
+    if (appId && privateKey) {
+      try {
+        ok = await appAuth(repository, appId, privateKey)
+
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
+    }
+
     const {
       repository: {
         issues: {totalCount: issuesCount, nodes: issues},
         pullRequests: {totalCount: pullRequestsCount, nodes: pullRequests},
       },
-    } = await octokit.graphql(
+    } = await ok.graphql(
       `query ($owner: String!, $repo: String!) {
   repository(owner: $owner, name: $repo) {
     issues(first: 50, states: [OPEN]) {
@@ -55,7 +70,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       // unarchive repository
       if (!dryRun) {
         // https://docs.github.com/en/rest/repos/repos#update-a-repository
-        await octokit.request(`PATCH /repos/{owner}/{repo}`, {
+        await ok.request(`PATCH /repos/{owner}/{repo}`, {
           owner,
           repo,
           archived: false,
@@ -71,7 +86,7 @@ export async function script(octokit, repository, {dryRun = false}) {
           octokit.log.info({title, url: i}, `  🐢 dry-run`)
         } else {
           // https://docs.github.com/en/rest/reference/issues#update-an-issue
-          await octokit.request(`PATCH /repos/{owner}/{repo}/issues/{issue_number}`, {
+          await ok.request(`PATCH /repos/{owner}/{repo}/issues/{issue_number}`, {
             owner,
             repo,
             issue_number: number,
@@ -89,7 +104,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       // archive repository
       if (!dryRun) {
         // https://docs.github.com/en/rest/repos/repos#update-a-repository
-        await octokit.request(`PATCH /repos/{owner}/{repo}`, {
+        await ok.request(`PATCH /repos/{owner}/{repo}`, {
           owner,
           repo,
           archived: true,

@@ -1,12 +1,15 @@
+import {appAuth} from '@stoe/octoherd-script-common'
 import {setTimeout} from 'timers/promises'
 
 /**
  * @param {import('@octoherd/cli').Octokit}     octokit
  * @param {import('@octoherd/cli').Repository}  repository
  * @param {object}                              [options]
+ * @param {int}                                 [options.appId=0]
+ * @param {string}                              [options.privateKey='']
  * @param {boolean}                             [options.dryRun=false]
  */
-export async function script(octokit, repository, {dryRun = false}) {
+export async function script(octokit, repository, {appId = 0, privateKey = '', dryRun = false}) {
   const {
     archived,
     disabled,
@@ -23,13 +26,25 @@ export async function script(octokit, repository, {dryRun = false}) {
 
   const language = repository.language ? repository.language.toLowerCase() : null
 
+  let ok = octokit
+  if (appId && privateKey) {
+    try {
+      ok = await appAuth(repository, appId, privateKey)
+
+      octokit.log.info(`  🤖 authenticated as app`)
+    } catch (error) {
+      octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+      return
+    }
+  }
+
   // branch protection
   const {
     repository: {
       owner: {id: ownerID, type: ownerType},
       branchProtectionRules: {nodes: rules},
     },
-  } = await octokit.graphql(getBranchProtectionQuery, {owner, repo})
+  } = await ok.graphql(getBranchProtectionQuery, {owner, repo})
 
   let actors = []
   if (ownerType === 'User') {
@@ -46,7 +61,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       if (dryRun) {
         octokit.log.info({checks: true, language}, `  🐢 dry-run create branch protection`)
       } else {
-        await octokit.graphql(createBranchProtectionQuery, {
+        await ok.graphql(createBranchProtectionQuery, {
           repo: repoID,
           actors,
         })
@@ -59,7 +74,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       if (dryRun) {
         octokit.log.info({checks: false, language}, `  🐢 dry-run create branch protection`)
       } else {
-        await octokit.graphql(createBranchProtectionNoChecksQuery, {
+        await ok.graphql(createBranchProtectionNoChecksQuery, {
           repo: repoID,
           actors,
         })
@@ -77,7 +92,7 @@ export async function script(octokit, repository, {dryRun = false}) {
           if (dryRun) {
             octokit.log.info({checks: true, pattern, language}, `  🐢 dry-run update branch protection`)
           } else {
-            await octokit.graphql(updateBranchProtectionQuery, {
+            await ok.graphql(updateBranchProtectionQuery, {
               branchProtectionRuleId: id,
               pattern,
               actors,
@@ -100,7 +115,7 @@ export async function script(octokit, repository, {dryRun = false}) {
           if (dryRun) {
             octokit.log.info({checks: false, pattern, language}, `  🐢 dry-run update branch protection`)
           } else {
-            await octokit.graphql(updateBranchProtectionNoChecksQuery, {
+            await ok.graphql(updateBranchProtectionNoChecksQuery, {
               branchProtectionRuleId: id,
               pattern,
               actors,
@@ -129,7 +144,7 @@ export async function script(octokit, repository, {dryRun = false}) {
   try {
     // enable tag protection if not already enabled
     // https://docs.github.com/en/rest/repos/tags#list-tag-protection-states-for-a-repository
-    const {data} = await octokit.request('GET /repos/{owner}/{repo}/tags/protection', {
+    const {data} = await ok.request('GET /repos/{owner}/{repo}/tags/protection', {
       owner,
       repo,
     })
@@ -141,7 +156,7 @@ export async function script(octokit, repository, {dryRun = false}) {
         octokit.log.info({checks: true}, `  🐢 dry-run tag protection ${tagPattern}`)
       } else {
         // https://docs.github.com/en/rest/repos/tags#create-a-tag-protection-state-for-a-repository
-        await octokit.request('POST /repos/{owner}/{repo}/tags/protection', {
+        await ok.request('POST /repos/{owner}/{repo}/tags/protection', {
           owner,
           repo,
           pattern: tagPattern,
@@ -190,7 +205,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       octokit.log.info({updated: true}, `  🐢 dry-run vulnerability alerts`)
     } else {
       // https://docs.github.com/en/rest/reference/repos#enable-vulnerability-alerts
-      await octokit.request('PUT /repos/{owner}/{repo}/vulnerability-alerts', {
+      await ok.request('PUT /repos/{owner}/{repo}/vulnerability-alerts', {
         owner,
         repo,
       })
@@ -205,7 +220,7 @@ export async function script(octokit, repository, {dryRun = false}) {
       octokit.log.info({updated: true}, `  🐢 dry-run automated security fixes`)
     } else {
       // https://docs.github.com/en/rest/reference/repos#enable-automated-security-fixes
-      await octokit.request('PUT /repos/{owner}/{repo}/automated-security-fixes', {
+      await ok.request('PUT /repos/{owner}/{repo}/automated-security-fixes', {
         owner,
         repo,
       })
@@ -268,7 +283,7 @@ export async function script(octokit, repository, {dryRun = false}) {
         `  🐢 dry-run settings`,
       )
     } else {
-      await octokit.request('PATCH /repos/{owner}/{repo}', config)
+      await ok.request('PATCH /repos/{owner}/{repo}', config)
 
       octokit.log.info({updated: true}, `  🔧 settings`)
 
@@ -280,7 +295,7 @@ export async function script(octokit, repository, {dryRun = false}) {
 
     if (error.message === 'Secret scanning can only be enabled on repos where Advanced Security is enabled') {
       delete config.security_and_analysis.secret_scanning
-      await octokit.request('PATCH /repos/{owner}/{repo}', config)
+      await ok.request('PATCH /repos/{owner}/{repo}', config)
 
       octokit.log.info({updated: true}, `  🔧 settings`)
     }

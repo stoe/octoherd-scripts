@@ -7,12 +7,12 @@ import {fileURLToPath} from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /**
- * @param {import('@octoherd/cli').Octokit} octokit
- * @param {import('@octoherd/cli').Repository} repository
- * @param {object} options
- * @param {int}     [options.appId=0]
- * @param {string}  [options.privateKey='']
- * @param {boolean} [options.dryRun=false]
+ * @param {import('@octoherd/cli').Octokit}     octokit
+ * @param {import('@octoherd/cli').Repository}  repository
+ * @param {object}                              options
+ * @param {int}                                 [options.appId=0]
+ * @param {string}                              [options.privateKey='']
+ * @param {boolean}                             [options.dryRun=false]
  */
 export async function script(octokit, repository, {appId = 0, privateKey = '', dryRun = false}) {
   const {
@@ -36,6 +36,16 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
   try {
     let ok = octokit
+    if (appId && privateKey) {
+      try {
+        ok = await appAuth(repository, appId, privateKey)
+
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
+    }
 
     const path = resolve(__dirname, `./release.default.yml`)
     const newContentBuffer = readFileSync(path)
@@ -67,7 +77,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       // https://docs.github.com/en/rest/reference/repos#get-repository-content
       const {
         data: {content: existingContentBase64},
-      } = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+      } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner,
         repo,
         path: '.github/release.yml',
@@ -96,12 +106,6 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 > **Note**
 > [Configuring automatically generated release notes](
 > https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuring-automatically-generated-release-notes)`
-
-        if (appId && privateKey) {
-          ok = await appAuth(repository, appId, privateKey)
-
-          octokit.log.info(`  🤖 authenticated as app`)
-        }
 
         const {
           data: {html_url},

@@ -36,8 +36,20 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
   // skip repostories without action.yml
   try {
+    let ok = octokit
+    if (appId && privateKey) {
+      try {
+        ok = await appAuth(repository, appId, privateKey)
+
+        octokit.log.info(`  🤖 authenticated as app`)
+      } catch (error) {
+        octokit.log.info({error}, `  ❌ failed to authenticate as app`)
+        return
+      }
+    }
+
     // https://docs.github.com/en/rest/reference/repos#get-repository-content
-    const {data} = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    const {data} = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
       owner,
       repo,
       path: 'action.yml',
@@ -55,13 +67,6 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
 
     if (data && data.name === 'action.yml') {
       const content = Buffer.from(data.content, 'base64').toString('utf-8')
-
-      let ok = octokit
-      if (appId && privateKey) {
-        ok = await appAuth(repository, appId, privateKey)
-
-        octokit.log.info(`  🤖 authenticated as app`)
-      }
 
       if (content.includes("using: 'node12'")) {
         octokit.log.warn({url}, `  🪄 needs to be updated from node12 to node16`)

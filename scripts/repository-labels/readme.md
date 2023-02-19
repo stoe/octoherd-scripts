@@ -10,19 +10,31 @@
 
 ```sh
 $ npx @stoe/octoherd-script-repository-labels \
-  --template "stoe/octoherd-scripts"
+  --template "stoe/octoherd-scripts" \
   --octoherd-token ghp_000000000000000000000000000000000000 \
   --octoherd-repos "stoe/*"
 ```
 
+```sh
+# to authenticate as GitHub App
+$ npx @stoe/octoherd-script-repository-labels \
+  --template "stoe/octoherd-scripts" \
+  --octoherd-token ghp_000000000000000000000000000000000000 \
+  --octoherd-repos "stoe/*"
+  --app-id 12345 \
+  --private-key ./private-key.pem
+```
+
 ## Options
 
-| option       | type    | description                                       |
-| ------------ | ------- | ------------------------------------------------- |
-| `--dry-run`  | boolean | show what would be done (default `false`)         |
-| `--defaults` | boolean | use [default labels](./labels.js)                 |
-| `--path`     | string  | path to your labels.json ([example](labels.json)) |
-| `--template` | string  | repository to sync labels from                    |
+| option          | type    | description                                       |
+| --------------- | ------- | ------------------------------------------------- |
+| `--defaults`    | boolean | use [default labels](./labels.js)                 |
+| `--path`        | string  | path to your labels.json ([example](labels.json)) |
+| `--template`    | string  | repository to sync labels from                    |
+| `--dry-run`     | boolean | show what would be done (default `false`)         |
+| `--app-id`      | integer | GitHub App ID (default `0`)                       |
+| `--private-key` | string  | path to GitHub App `.pem` file (default `''`)     |
 
 ## License
 
