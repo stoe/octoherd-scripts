@@ -2,7 +2,7 @@
 
 [![cleanup-archived-repos version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Fcleanup-archived-repos%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-cleanup-archived-repos)
 
-> Close issues/PRs in archibed repositories
+> Close issues/PRs in archived repositories
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.
 

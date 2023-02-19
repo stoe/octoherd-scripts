@@ -2,7 +2,7 @@
   "name": "@stoe/octoherd-script-cleanup-archived-repos",
   "version": "2.0.0",
   "type": "module",
-  "description": "Close issues/PRs in archibed repositories",
+  "description": "Close issues/PRs in archived repositories",
   "keywords": [
     "octohed-script",
     "github-actions",
