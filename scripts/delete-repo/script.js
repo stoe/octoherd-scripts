@@ -5,16 +5,24 @@ import {setTimeout} from 'timers/promises'
  * @param {import('@octoherd/cli').Octokit}    octokit
  * @param {import('@octoherd/cli').Repository} repository
  * @param {object}                             options
- * @param {int}                                 [options.appId=0]
- * @param {string}                              [options.privateKey='']
- * @param {boolean}                             [options.dryRun=false]
+ * @param {string}                             [options.excludes='']
+ * @param {int}                                [options.appId=0]
+ * @param {string}                             [options.privateKey='']
+ * @param {boolean}                            [options.dryRun=false]
  */
-export async function script(octokit, repository, {appId = 0, privateKey = '', dryRun = false}) {
+export async function script(octokit, repository, {excludes = '', appId = 0, privateKey = '', dryRun = false}) {
   const {
     name: repo,
     owner: {login: owner},
     clone_url: url,
   } = repository
+
+  // skip excluded repos
+  const exclude = excludes.split(',').map(s => s.trim())
+  if (exclude.includes(repo)) {
+    octokit.log.info(`  🙈 ${owner}/${repo} excluded, skipping`)
+    return
+  }
 
   try {
     let ok = octokit
@@ -30,7 +38,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
     }
 
     if (dryRun) {
-      octokit.log.info({delete: false, url}, `  🧹 ${owner}/${repo} would be deleted`)
+      octokit.log.info({delete: false, url}, `  🐢 ${owner}/${repo} would be deleted`)
       return
     }
 
@@ -49,9 +57,5 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       {delete: false, url, error: error.message, status: error.status},
       `  ❌ ${owner}/${repo} not deleted`,
     )
-
-    return
   }
-
-  return
 }
