@@ -25,11 +25,13 @@ $ npx @stoe/octoherd-script-delete-repo \
 
 ## Options
 
-| option          | type    | description                                   |
-| --------------- | ------- | --------------------------------------------- |
-| `--dry-run`     | boolean | show what would be done (default `false`)     |
-| `--app-id`      | integer | GitHub App ID (default `0`)                   |
-| `--private-key` | string  | path to GitHub App `.pem` file (default `''`) |
+| option              | type    | description                                                    |
+| ------------------- | ------- | -------------------------------------------------------------- |
+| `--excludes`        | string  | comma-separated list of repositories to exclude (default `''`) |
+| `--delete-archived` | boolean | delete archived repositories (default `false`)                 |
+| `--dry-run`         | boolean | show what would be done (default `false`)                      |
+| `--app-id`          | integer | GitHub App ID (default `0`)                                    |
+| `--private-key`     | string  | path to GitHub App `.pem` file (default `''`)                  |
 
 ## License
 
