@@ -36,7 +36,7 @@
     "update": "./.github/scripts/update.sh"
   },
   "dependencies": {
-    "@octoherd/cli": "^3.6.2",
+    "@octoherd/cli": "^3.6.3",
     "@stoe/octoherd-script-common": "latest"
   },
   "devDependencies": {
