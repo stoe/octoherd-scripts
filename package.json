@@ -42,7 +42,7 @@
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
     "eslint": "^8.37.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-github": "^4.6.1",
     "husky": "^8.0.3",
     "typescript": "^5.0.3"
