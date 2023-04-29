@@ -43,7 +43,7 @@
     "test": "eslint '*.js'"
   },
   "dependencies": {
-    "@octoherd/cli": "^3.6.3",
+    "@octoherd/cli": "^3.6.5",
     "@stoe/octoherd-script-common": "latest",
     "octokit-plugin-create-pull-request": "^4.1.1"
   },
