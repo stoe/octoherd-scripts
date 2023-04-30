@@ -24,3 +24,15 @@ updates:
       - 'dependency :robot:'
     allow:
       - dependency-type: 'production'
+
+  - package-ecosystem: 'gomod'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    commit-message:
+      prefix: '🆙 go'
+      include: 'scope'
+    labels:
+      - 'dependency :robot:'
+    allow:
+      - dependency-type: 'development'
