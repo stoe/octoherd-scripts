@@ -60,64 +60,85 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
       }
     }
 
-    const newContentBuffer = readFileSync(path)
-    const newContent = Buffer.from(newContentBuffer, 'base64').toString('utf-8')
+    const dependabotNewBuffer = readFileSync(path)
+    const dependabotNewContent = Buffer.from(dependabotNewBuffer, 'base64').toString('utf-8')
+
+    const combinePRsBuffer = readFileSync(resolve(__dirname, `./dependabot-combine-prs.yml`))
+    const combineNewContent = Buffer.from(combinePRsBuffer, 'base64').toString('utf-8')
 
     const options = {
       owner,
       repo,
-      title: '🤖 Update @dependabot config',
+      title: '🤖 @dependabot config',
       head: 'octoherd-script/dependabot-config',
       base: default_branch,
-      body: 'This pull request updates the @dependabot config',
+      body: `## Summary
+copilot:summary
+
+## Details
+copilot:walkthrough
+
+---
+
+> **Note**
+> - [Configuration options for the dependabot.yml file](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
+> - [GitHub Action to combine multiple PRs into a single one](https://github.com/github/combine-prs)
+`,
       createWhenEmpty: false,
       changes: [
         {
           files: {
-            '.github/dependabot.yml': newContent,
+            '.github/dependabot.yml': dependabotNewContent,
           },
           commit: `🤖 Update .github/dependabot.yml`,
+          emptyCommit: false,
+        },
+        {
+          files: {
+            '.github/workflows/dependabot-combine-prs.yml': combineNewContent,
+          },
+          commit: `🤖 Update .github/workflows/dependabot-combine-prs.yml`,
           emptyCommit: false,
         },
       ],
       update: true,
     }
 
-    let create = false
-    let existingContent
+    let dependabotUpdateContent
+    let combineUpdateContent
     try {
       // https://docs.github.com/en/rest/reference/repos#get-repository-content
       const {
-        data: {content: existingContentBase64},
+        data: {content: dependabotContentBase64},
       } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner,
         repo,
         path: '.github/dependabot.yml',
       })
 
-      existingContent = Buffer.from(existingContentBase64, 'base64').toString('utf-8')
+      dependabotUpdateContent = Buffer.from(dependabotContentBase64, 'base64').toString('utf-8')
+
+      // https://docs.github.com/en/rest/reference/repos#get-repository-content
+      const {
+        data: {content: combineContentBase64},
+      } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
+        owner,
+        repo,
+        path: '.github/dependabot.yml',
+      })
+
+      combineUpdateContent = Buffer.from(combineContentBase64, 'base64').toString('utf-8')
     } catch (error) {
-      create = true
+      // do nothing
     }
 
-    if (newContent === existingContent) {
+    if (dependabotNewContent === dependabotUpdateContent && combineNewContent === combineUpdateContent) {
       octokit.log.info({change: false}, `  🙊 no changes`)
     } else {
-      if (create) {
-        options.title = '✨ Create @dependabot config'
-        options.body = `- ✨ Create .github/dependabot.yml`
-        options.changes[0].commit = `✨ Create .github/dependabot.yml`
-      }
-
       if (dryRun) {
         const {title, base, head, changes} = options
         octokit.log.info({title, base, head, changes}, `  🐢 dry-run`)
       } else {
-        options.body += `
-
-> **Note**
-> [Configure dependabot.yml](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)`
-
         const {
           data: {html_url},
         } = await composeCreatePullRequest(ok, options)

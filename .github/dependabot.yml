@@ -7,7 +7,7 @@ updates:
       day: 'saturday'
       timezone: 'Europe/Berlin'
     commit-message:
-      prefix: '🆙 action'
+      prefix: '⬆️ action'
     labels:
       - 'github-action :robot:'
 
@@ -18,7 +18,21 @@ updates:
       day: 'saturday'
       timezone: 'Europe/Berlin'
     commit-message:
-      prefix: '🆙 npm'
+      prefix: '⬆️ npm'
       include: 'scope'
     labels:
       - 'dependency :robot:'
+    allow:
+      - dependency-type: 'production'
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    commit-message:
+      prefix: '⬆️ npm'
+      include: 'scope'
+    labels:
+      - 'dependency :robot:'
+    allow:
+      - dependency-type: 'development'
