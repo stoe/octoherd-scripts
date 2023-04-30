@@ -22,3 +22,5 @@ updates:
       include: 'scope'
     labels:
       - 'dependency :robot:'
+    allow:
+      - dependency-type: 'production'
