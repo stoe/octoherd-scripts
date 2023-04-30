@@ -14,25 +14,9 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
-      day: 'saturday'
-      timezone: 'Europe/Berlin'
-    commit-message:
-      prefix: '⬆️ npm'
-      include: 'scope'
-    labels:
-      - 'dependency :robot:'
-    allow:
-      - dependency-type: 'production'
-
-  - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
       interval: 'monthly'
     commit-message:
       prefix: '⬆️ npm'
       include: 'scope'
     labels:
       - 'dependency :robot:'
-    allow:
-      - dependency-type: 'development'
