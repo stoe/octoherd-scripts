@@ -1,9 +1,9 @@
-name: combine-dependabot-prs
+name: combine dependabot prs
 
 on:
   schedule:
-    # run every Friday at 00:42 UTC
-    - cron: '42 0 * * 5'
+    # run every first Saturday of the month at 00:42 UTC
+    - cron: '42 0 1-7 * 6'
   workflow_dispatch:
 
 permissions:
