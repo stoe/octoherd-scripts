@@ -196,8 +196,8 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
         status: 'enabled',
       },
     },
-    squash_merge_commit_message: 'COMMIT_MESSAGES',
     squash_merge_commit_title: 'PR_TITLE',
+    squash_merge_commit_message: 'BLANK',
   }
 
   try {
