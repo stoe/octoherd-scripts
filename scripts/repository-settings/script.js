@@ -301,6 +301,30 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
     }
   }
 
+  // sleep 1 second
+  await setTimeout(1000)
+
+  // actions settings
+  const actionsConfig = {
+    owner,
+    repo,
+    default_workflow_permissions: 'read',
+    // can_approve_pull_request_reviews: true,
+  }
+
+  if (dryRun) {
+    octokit.log.info({updated: true, config: actionsConfig}, `  🐢 dry-run actions settings`)
+  } else {
+    try {
+      // https://docs.github.com/en/rest/actions/permissions#set-default-workflow-permissions-for-a-repository
+      await ok.request('PUT /repos/{owner}/{repo}/actions/permissions/workflow', actionsConfig)
+
+      octokit.log.info({updated: true}, `  🔧 actions settings`)
+    } catch (error) {
+      octokit.log.warn({error: error.message}, `  ❌ actions settings`)
+    }
+  }
+
   // done
   octokit.log.info(`  ✅ ${url}`)
   return true
