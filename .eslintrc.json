@@ -19,12 +19,14 @@
       {
         "allow": [
           "advanced_security",
-          "allow_squash_merge",
+          "allow_auto_merge",
           "allow_merge_commit",
           "allow_rebase_merge",
-          "allow_auto_merge",
+          "allow_squash_merge",
+          "can_approve_pull_request_reviews",
           "clone_url",
           "default_branch",
+          "default_workflow_permissions",
           "delete_branch_on_merge",
           "full_name",
           "has_issues",
@@ -36,8 +38,8 @@
           "new_name",
           "node_id",
           "per_page",
-          "security_and_analysis",
           "secret_scanning",
+          "security_and_analysis",
           "squash_merge_commit_message",
           "squash_merge_commit_title",
           "state_reason"
