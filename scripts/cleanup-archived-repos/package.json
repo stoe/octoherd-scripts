@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-cleanup-archived-repos",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
   "description": "Close issues/PRs in archived repositories",
   "keywords": [
