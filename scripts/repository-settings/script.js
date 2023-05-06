@@ -61,7 +61,7 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
     } else {
       const statusCheckContext = []
       if (language === 'javascript') {
-        statusCheckContext.push('test / test-matrix (16)')
+        statusCheckContext.push('test / test-matrix (16, false)')
         statusCheckContext.push('test / test')
       }
 
