@@ -56,82 +56,69 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
     const create = rules.length === 0
     const update = rules.length > 0
 
-    // create
-    if (create && language === 'javascript') {
-      if (dryRun) {
-        octokit.log.info({checks: true, language}, `  🐢 dry-run create branch protection`)
-      } else {
-        await ok.graphql(createBranchProtectionQuery, {
-          repo: repoID,
-          actors,
-        })
-
-        octokit.log.info({checks: true, language}, `  🔒 create branch protection`)
-      }
-    }
-
-    if (create && language !== 'javascript') {
-      if (dryRun) {
-        octokit.log.info({checks: false, language}, `  🐢 dry-run create branch protection`)
-      } else {
-        await ok.graphql(createBranchProtectionNoChecksQuery, {
-          repo: repoID,
-          actors,
-        })
-
-        octokit.log.info({checks: false, language}, `  🔒 create branch protection`)
-      }
-    }
-
-    // update
-    if (update && language === 'javascript') {
-      for (const rule of rules) {
-        const {pattern, id} = rule
-
-        if (['main', 'master'].includes(pattern)) {
-          if (dryRun) {
-            octokit.log.info({checks: true, pattern, language}, `  🐢 dry-run update branch protection`)
-          } else {
-            await ok.graphql(updateBranchProtectionQuery, {
-              branchProtectionRuleId: id,
-              pattern,
-              actors,
-            })
-
-            octokit.log.info({checks: true, pattern, language}, `  🔒 update branch protection`)
-          }
-        } else {
-          octokit.log.info({skipped: true, pattern, language}, `  🙊 branch protection`)
-          continue
-        }
-      }
-    }
-
-    if (update && language !== 'javascript') {
-      for (const rule of rules) {
-        const {pattern, id, requiredStatusChecks} = rule
-
-        if (requiredStatusChecks.length === 0) {
-          if (dryRun) {
-            octokit.log.info({checks: false, pattern, language}, `  🐢 dry-run update branch protection`)
-          } else {
-            await ok.graphql(updateBranchProtectionNoChecksQuery, {
-              branchProtectionRuleId: id,
-              pattern,
-              actors,
-            })
-
-            octokit.log.info({checks: false, pattern, language}, `  🔒 update branch protection`)
-          }
-        } else {
-          octokit.log.info({skipped: true, pattern, language}, `  🙊 branch protection`)
-          continue
-        }
-      }
-    }
-
     if (!create && !update) {
       octokit.log.info({skipped: true}, `  🙊 branch protection`)
+    } else {
+      const statusCheckContext = []
+      if (language === 'javascript') {
+        statusCheckContext.push('test / test-matrix (16)')
+        statusCheckContext.push('test / test')
+      }
+
+      const branchProtection = {
+        repo: repoID,
+        statusCheckContext,
+        actors,
+      }
+
+      // create
+      if (create) {
+        if (dryRun) {
+          octokit.log.info(
+            {checks: true, language, statusCheckContext: branchProtection.statusCheckContext},
+            `  🐢 dry-run create branch protection`,
+          )
+        } else {
+          await ok.graphql(createBranchProtectionQuery, branchProtection)
+
+          octokit.log.info(
+            {checks: true, language, statusCheckContext: branchProtection.statusCheckContext},
+            `  🔒 create branch protection`,
+          )
+        }
+      }
+
+      // update
+      if (update) {
+        for (const rule of rules) {
+          const {pattern, id} = rule
+
+          branchProtection.pattern = pattern
+          branchProtection.branchProtectionRuleId = id
+
+          if (['main', 'master'].includes(pattern)) {
+            if (dryRun) {
+              octokit.log.info(
+                {checks: true, pattern, language, statusCheckContext: branchProtection.statusCheckContext},
+                `  🐢 dry-run update branch protection`,
+              )
+            } else {
+              await ok.graphql(updateBranchProtectionQuery, branchProtection)
+
+              octokit.log.info(
+                {checks: true, pattern, language, statusCheckContext: branchProtection.statusCheckContext},
+                `  🔒 update branch protection`,
+              )
+            }
+          } else {
+            octokit.log.info(
+              {skipped: true, pattern, language, statusCheckContext: branchProtection.statusCheckContext},
+              `  🙊 branch protection`,
+            )
+            continue
+          }
+        }
+      }
     }
   } catch (error) {
     octokit.log.error({error: error.message}, `  ❌ branch protection`)
@@ -357,6 +344,7 @@ const getBranchProtectionQuery = `query(
 // https://docs.github.com/en/graphql/reference/input-objects#createbranchprotectionruleinput
 const createBranchProtectionQuery = `mutation(
   $repo: ID!,
+  $statusCheckContext: [String!] = [],
   $actors: [ID!] = []
 ) {
   createBranchProtectionRule(input: {
@@ -372,47 +360,7 @@ const createBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test"]
-
-    requiresConversationResolution: true
-
-    requiresCommitSignatures: true
-
-    requiresLinearHistory: true
-
-    restrictsPushes: false
-
-    isAdminEnforced: false
-
-    allowsForcePushes: false
-    bypassForcePushActorIds: $actors
-    bypassPullRequestActorIds: $actors
-
-    allowsDeletions: false
-  }) {
-    clientMutationId
-  }
-}`
-
-// https://docs.github.com/en/graphql/reference/input-objects#createbranchprotectionruleinput
-const createBranchProtectionNoChecksQuery = `mutation(
-  $repo: ID!,
-  $actors: [ID!] = []
-) {
-  createBranchProtectionRule(input: {
-    clientMutationId: "@stoe/octoherd-script-repo-settings"
-    repositoryId: $repo
-    pattern: "main"
-
-    requiresApprovingReviews: true
-    requiredApprovingReviewCount: 0
-    requiresCodeOwnerReviews: true
-    restrictsReviewDismissals: false
-    requireLastPushApproval: true
-
-    requiresStatusChecks: false
-    requiresStrictStatusChecks: false
-    requiredStatusCheckContexts: []
+    requiredStatusCheckContexts: $statusCheckContext
 
     requiresConversationResolution: true
 
@@ -438,6 +386,7 @@ const createBranchProtectionNoChecksQuery = `mutation(
 const updateBranchProtectionQuery = `mutation(
   $branchProtectionRuleId: ID!
   $pattern: String = "main",
+  $statusCheckContext: [String!] = [],
   $actors: [ID!] = []
 ) {
   updateBranchProtectionRule(input: {
@@ -454,49 +403,7 @@ const updateBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test"]
-
-    requiresConversationResolution: true
-
-    requiresCommitSignatures: true
-
-    requiresLinearHistory: true
-
-    restrictsPushes: false
-
-    isAdminEnforced: false
-
-    allowsForcePushes: false
-    bypassForcePushActorIds: $actors
-    bypassPullRequestActorIds: $actors
-
-    allowsDeletions: false
-  }) {
-    clientMutationId
-  }
-}`
-
-// https://docs.github.com/en/graphql/reference/mutations#updatebranchprotectionrule
-const updateBranchProtectionNoChecksQuery = `mutation(
-  $branchProtectionRuleId: ID!
-  $pattern: String = "main",
-  $actors: [ID!] = []
-) {
-  updateBranchProtectionRule(input: {
-    clientMutationId: "@stoe/octoherd-script-repo-settings"
-    branchProtectionRuleId: $branchProtectionRuleId
-
-    pattern: $pattern
-
-    requiresApprovingReviews: true
-    requiredApprovingReviewCount: 0
-    requiresCodeOwnerReviews: true
-    restrictsReviewDismissals: false
-    requireLastPushApproval: true
-
-    requiresStatusChecks: false
-    requiresStrictStatusChecks: false
-    requiredStatusCheckContexts: []
+    requiredStatusCheckContexts: $statusCheckContext
 
     requiresConversationResolution: true
 
