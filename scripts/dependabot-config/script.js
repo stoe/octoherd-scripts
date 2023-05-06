@@ -124,7 +124,7 @@ copilot:walkthrough
       } = await ok.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner,
         repo,
-        path: '.github/dependabot.yml',
+        path: '.github/workflows/dependabot-combine-prs.yml',
       })
 
       combineUpdateContent = Buffer.from(combineContentBase64, 'base64').toString('utf-8')
@@ -140,8 +140,25 @@ copilot:walkthrough
         octokit.log.info({title, base, head, changes}, `  🐢 dry-run`)
       } else {
         const {
-          data: {html_url},
+          data: {node_id: pullRequestId, html_url},
         } = await composeCreatePullRequest(ok, options)
+
+        try {
+          // https://docs.github.com/en/graphql/reference/mutations#enablepullrequestautomerge
+          await ok.graphql(
+            `mutation($pullRequestId: ID!) {
+  enablePullRequestAutoMerge(input: {
+    pullRequestId: $pullRequestId
+    mergeMethod: SQUASH
+  }) {
+    pullRequest { title }
+  }
+}`,
+            {pullRequestId},
+          )
+        } catch (error) {
+          octokit.log.warn({error}, `  ❌ auto-merge not enabled for ${owner}/${repo}`)
+        }
 
         octokit.log.info({change: true}, `  📦 pull request created ${html_url}`)
       }
