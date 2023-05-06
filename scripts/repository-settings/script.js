@@ -280,27 +280,28 @@ export async function script(octokit, repository, {appId = 0, privateKey = '', d
           updated: true,
           config: c,
         },
-        `  🐢 dry-run settings`,
+        `  🐢 dry-run repository settings`,
       )
     } else {
       await ok.request('PATCH /repos/{owner}/{repo}', config)
 
-      octokit.log.info({updated: true}, `  🔧 settings`)
+      octokit.log.info({updated: true}, `  🔧 repository settings`)
 
       // sleep 1 second
       await setTimeout(1000)
     }
   } catch (error) {
-    octokit.log.warn({error: error.message}, `  ❌ settings, retrying without secret scanning`)
+    octokit.log.warn({error: error.message}, `  ❌ repository settings, retrying without secret scanning`)
 
     if (error.message === 'Secret scanning can only be enabled on repos where Advanced Security is enabled') {
       delete config.security_and_analysis.secret_scanning
       await ok.request('PATCH /repos/{owner}/{repo}', config)
 
-      octokit.log.info({updated: true}, `  🔧 settings`)
+      octokit.log.info({updated: true}, `  🔧 repository settings`)
     }
   }
 
+  // done
   octokit.log.info(`  ✅ ${url}`)
   return true
 }
