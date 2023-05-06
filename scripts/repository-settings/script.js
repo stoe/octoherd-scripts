@@ -372,7 +372,7 @@ const createBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test-matrix (16)", "test / test"]
+    requiredStatusCheckContexts: ["test / test"]
 
     requiresConversationResolution: true
 
@@ -454,7 +454,7 @@ const updateBranchProtectionQuery = `mutation(
 
     requiresStatusChecks: true
     requiresStrictStatusChecks: true
-    requiredStatusCheckContexts: ["test / test-matrix (16)", "test / test"]
+    requiredStatusCheckContexts: ["test / test"]
 
     requiresConversationResolution: true
 
