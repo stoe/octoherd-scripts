@@ -31,12 +31,11 @@ export async function script(
     name: repo,
     owner: {login: owner},
     full_name,
-    size,
     clone_url: url,
   } = repository
 
-  // skip archived, disabled, forked and empty repos
-  if (archived || disabled || fork || size === 0) return
+  // skip archived, disabled, and forked repos
+  if (archived || disabled || fork) return
 
   try {
     let ok = octokit
@@ -120,13 +119,7 @@ export async function script(
       try {
         octokit.log.info({name, description, color}, `  🚮 deleting`)
 
-        // https://docs.github.com/en/rest/reference/issues#delete-a-label
-        if (!dryRun) {
-          await ok.request('DELETE /repos/{owner}/{repo}/labels/{name}', {owner, repo, name})
-
-          // sleep 1.5 seconds
-          await setTimeout(1500)
-        }
+        if (!dryRun) await deleteLabel(ok, owner, repo, name)
       } catch (error) {
         octokit.log.error(`  ${name}: ${error.message}`)
       }
@@ -141,20 +134,7 @@ export async function script(
       try {
         octokit.log.info({name, new_name, description, color}, `  🆙 updating`)
 
-        // https://docs.github.com/en/rest/reference/issues#update-a-label
-        if (!dryRun) {
-          await ok.request('PATCH /repos/{owner}/{repo}/labels/{name}', {
-            owner,
-            repo,
-            name,
-            new_name,
-            color,
-            description,
-          })
-
-          // sleep 1.5 seconds
-          await setTimeout(1500)
-        }
+        if (!dryRun) await updateLabel(ok, owner, repo, name, new_name, color, description)
       } catch (error) {
         octokit.log.error(`  ${name}: ${error.message}`)
       }
@@ -169,19 +149,7 @@ export async function script(
       try {
         octokit.log.info({name, description, color}, `  🆕 creating`)
 
-        // https://docs.github.com/en/rest/reference/issues#create-a-label
-        if (!dryRun) {
-          await ok.request('POST /repos/{owner}/{repo}/labels', {
-            owner,
-            repo,
-            name,
-            color,
-            description,
-          })
-
-          // sleep 1.5 seconds
-          await setTimeout(1500)
-        }
+        if (!dryRun) await createLabel(ok, owner, repo, name, color, description)
       } catch (error) {
         octokit.log.error(`  ${name}: ${error.message}`)
       }
@@ -192,4 +160,80 @@ export async function script(
   } catch (error) {
     octokit.log.error(`  ${error.message}`)
   }
+}
+
+/**
+ * Create a label on a GitHub repository
+ * @see https://docs.github.com/en/rest/reference/issues#create-a-label
+ *
+ * @param {import('@octoherd/cli').Octokit} octokit - authenticated Octokit instance
+ * @param {string}                          owner - owner of repository
+ * @param {string}                          repo - name of repository
+ * @param {string}                          name - name of label
+ * @param {string}                          color - color of label
+ * @param {string}                          description - description of label
+ *
+ * @returns {Promise<void>}
+ */
+async function createLabel(octokit, owner, repo, name, color, description) {
+  await octokit.request('POST /repos/{owner}/{repo}/labels', {
+    owner,
+    repo,
+    name,
+    color,
+    description,
+  })
+
+  // sleep 1.5 seconds
+  await setTimeout(1500)
+}
+
+/**
+ * Update a label on a GitHub repository
+ * @see https://docs.github.com/en/rest/reference/issues#update-a-label
+ *
+ * @param {import('@octoherd/cli').Octokit} octokit - authenticated Octokit instance
+ * @param {string}                          owner - owner of repository
+ * @param {string}                          repo - name of repository
+ * @param {string}                          name - name of label
+ * @param {string}                          new_name - new name of label
+ * @param {string}                          color - color of label
+ * @param {string}                          description - description of label
+ *
+ * @returns {Promise<void>}
+ */
+async function updateLabel(octokit, owner, repo, name, new_name, color, description) {
+  await octokit.request('PATCH /repos/{owner}/{repo}/labels/{name}', {
+    owner,
+    repo,
+    name,
+    new_name,
+    color,
+    description,
+  })
+
+  // sleep 1.5 seconds
+  await setTimeout(1500)
+}
+
+/**
+ * Delete a label on a GitHub repository
+ * @see https://docs.github.com/en/rest/reference/issues#delete-a-label
+ *
+ * @param {import('@octoherd/cli').Octokit} octokit - authenticated Octokit instance
+ * @param {string}                          owner - owner of repository
+ * @param {string}                          repo - name of repository
+ * @param {string}                          name - name of label
+ *
+ * @returns {Promise<void>}
+ */
+async function deleteLabel(octokit, owner, repo, name) {
+  await octokit.request('DELETE /repos/{owner}/{repo}/labels/{name}', {
+    owner,
+    repo,
+    name,
+  })
+
+  // sleep 1.5 seconds
+  await setTimeout(1500)
 }
