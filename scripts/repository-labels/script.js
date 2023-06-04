@@ -4,15 +4,15 @@ import {readFileSync} from 'fs'
 import {setTimeout} from 'timers/promises'
 
 /**
- * @param {import('@octoherd/cli').Octokit}     octokit
- * @param {import('@octoherd/cli').Repository}  repository
- * @param {object}                              options
- * @param { {defaults: boolean} }               [options.defaults=false]
- * @param { {path: boolean} }                   [options.path=null]
- * @param { {dryRun: template} }                [options.template=false]
- * @param {int}                                 [options.appId=0]
- * @param {string}                              [options.privateKey='']
- * @param {boolean}                             [options.dryRun=false]
+ * @param {import('@octoherd/cli').Octokit}    octokit
+ * @param {import('@octoherd/cli').Repository} repository
+ * @param {object}                             options
+ * @param {boolean}                            [options.defaults=false]
+ * @param {string}                             [options.path=null]
+ * @param {boolean}                            [options.template=false]
+ * @param {int}                                [options.appId=0]
+ * @param {string}                             [options.privateKey='']
+ * @param {boolean}                            [options.dryRun=false]
  */
 export async function script(
   octokit,
