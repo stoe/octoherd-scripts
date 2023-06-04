@@ -6,12 +6,12 @@ changelog:
         - '*'
       exclude:
         labels:
-        - 'bug :bug:'
-        - 'bug 🐛'
-        - 'dependency :robot:'
-        - 'dependency 🤖'
-        - 'github-action :robot:'
-        - 'github-action 🤖'
+          - 'bug :bug:'
+          - 'bug 🐛'
+          - 'dependency :robot:'
+          - 'dependency 🤖'
+          - 'github-action :robot:'
+          - 'github-action 🤖'
 
     - title: '🐛 Bug Fixes'
       labels:
