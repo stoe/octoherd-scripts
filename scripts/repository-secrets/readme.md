@@ -2,7 +2,7 @@
 
 [![repository-secrets version](https://img.shields.io/github/package-json/v/stoe/octoherd-scripts?filename=scripts%2Frepository-secrets%2Fpackage.json)](https://github.com/stoe/octoherd-scripts/pkgs/npm/octoherd-script-repository-secrets)
 
-> Replace Action versions with SHAs
+> Manage repository Action secrets and variables
 >
 > [@octoherd](https://github.com/octoherd/) helps to keep your GitHub repositories in line.
 
