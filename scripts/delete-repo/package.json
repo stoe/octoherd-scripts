@@ -1,6 +1,6 @@
 {
   "name": "@stoe/octoherd-script-delete-repo",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "type": "module",
   "description": "Delete repositories",
   "keywords": [
