@@ -155,6 +155,14 @@ const encrypt = async (key, secret) => {
   await _sodium.ready
   const sodium = _sodium
 
+  // make sure key is a string and trim it
+  if (typeof key !== 'string') key = key.toString()
+  key = key.trim()
+
+  // make sure secret is a string and trim it
+  if (typeof secret !== 'string') secret = secret.toString()
+  secret.trim()
+
   // convert base64 key & secret to Uint8Array.
   const binkey = sodium.from_base64(key, sodium.base64_variants.ORIGINAL)
   const binsec = sodium.from_string(secret)
