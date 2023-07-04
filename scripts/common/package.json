@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@octoherd/cli": "^3.6.8",
-    "@octokit/auth-app": "^4.0.13"
+    "@octokit/auth-app": "^5.0.6"
   },
   "prettier": "@github/prettier-config"
 }
