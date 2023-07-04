@@ -45,7 +45,7 @@
   "dependencies": {
     "@octoherd/cli": "^3.6.8",
     "@stoe/octoherd-script-common": "latest",
-    "octokit-plugin-create-pull-request": "^4.2.2"
+    "octokit-plugin-create-pull-request": "^5.1.0"
   },
   "prettier": "@github/prettier-config"
 }
