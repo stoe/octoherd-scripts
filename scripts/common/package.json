@@ -38,7 +38,7 @@
     "test": "eslint '*.js'"
   },
   "dependencies": {
-    "@octoherd/cli": "^3.6.8",
+    "@octoherd/cli": "^4.0.0",
     "@octokit/auth-app": "^6.0.0"
   },
   "prettier": "@github/prettier-config"
