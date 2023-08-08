@@ -37,13 +37,13 @@
     "update": "./.github/scripts/update.sh"
   },
   "dependencies": {
-    "@octoherd/cli": "^3.6.8",
+    "@octoherd/cli": "^4.0.0",
     "@stoe/octoherd-script-common": "latest"
   },
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
     "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-github": "^4.9.2",
     "husky": "^8.0.3",
     "typescript": "^5.1.6"
