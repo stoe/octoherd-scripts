@@ -13,6 +13,7 @@ import {readFileSync} from 'fs'
 export async function appAuth(repository, appId, privateKey) {
   try {
     const {
+      id,
       name: repo,
       owner: {login: owner},
     } = repository
@@ -44,6 +45,7 @@ export async function appAuth(repository, appId, privateKey) {
       data: {token: appToken},
     } = await app.request('POST /app/installations/{installation_id}/access_tokens', {
       installation_id,
+      repository_ids: [id],
     })
 
     // return authenticated Octokit instance
