@@ -34,9 +34,9 @@
     "test": "eslint '*.js'"
   },
   "dependencies": {
-    "@octoherd/cli": "^4.0.0",
+    "@octoherd/cli": "^4.0.1",
     "js-yaml": "^4.1.0",
-    "libsodium-wrappers": "^0.7.11"
+    "libsodium-wrappers": "^0.7.13"
   },
   "prettier": "@github/prettier-config"
 }
