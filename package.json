@@ -42,11 +42,11 @@
   },
   "devDependencies": {
     "@github/prettier-config": "^0.0.6",
-    "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-github": "^4.10.1",
     "husky": "^8.0.3",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "husky": {
     "hooks": {
