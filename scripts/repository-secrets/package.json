@@ -34,7 +34,7 @@
     "test": "eslint '*.js'"
   },
   "dependencies": {
-    "@octoherd/cli": "^4.0.2",
+    "@octoherd/cli": "^4.0.3",
     "js-yaml": "^4.1.0",
     "libsodium-wrappers": "^0.7.13"
   },
